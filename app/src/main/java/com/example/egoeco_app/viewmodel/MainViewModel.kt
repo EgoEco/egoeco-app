@@ -1,4 +1,6 @@
 package com.example.egoeco_app.viewmodel
 
-class MainViewModel {
+import androidx.lifecycle.ViewModel
+
+class MainViewModel : ViewModel() {
 }
