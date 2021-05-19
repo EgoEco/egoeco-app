@@ -19,7 +19,7 @@ Eco
 
 ## Primary To-do List 
 - [ ] Design Application Structures & Design
-- [ ] Prepare M,V,VM Design with AAC ViewModel
+- [ ] Prepare MVVM Design with AAC ViewModel
 - [ ] Complete Data Model
 - [ ] Complete Login Activity
 - [ ] Complete MyMenu Fragment
