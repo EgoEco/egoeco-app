@@ -3,7 +3,7 @@
 EgoEco App 🏃‍♂
 
 
-`Started at 21.05.19`
+`Started at 21.05.18`
 
 
 ## What is this?
