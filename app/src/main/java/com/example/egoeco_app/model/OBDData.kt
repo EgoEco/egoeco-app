@@ -15,16 +15,30 @@ data class OBDData(
     @ColumnInfo var EcoDriveLevel: Int = 0,
     @ColumnInfo val reserved: Int = 0,
     @ColumnInfo var CheckSum: Int = 0,
-
-    ) : BaseEntity(), Serializable {
+) : BaseEntity(), Serializable {
     @Ignore
     fun initCheckSum() {
         CheckSum = sumOf(prefix1, prefix2, EngRPM_A, EngRPM_B, VehicleSpd, EcoDriveLevel, reserved)
-
     }
 
+    @Ignore
     fun sumOf(vararg arg: Int): Int {
         return arg.sum()
     }
+
+    @Ignore
+    fun getRawByteData() = sumOf(
+        prefix1,
+        prefix2,
+        EngRPM_A,
+        EngRPM_B,
+        VehicleSpd,
+        EcoDriveLevel,
+        reserved,
+        CheckSum
+    ).toString(16)
+
+    @Ignore
+    fun getRawByteData(data: Int) = data.toString(16)
 }
 
