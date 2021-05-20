@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/publicDataMenu"
+        android:id="@+id/publicDataFragment"
         android:icon="@drawable/ic_baseline_public_24"
         android:title="공공데이터" />
     <item
-        android:id="@+id/obdDataMenu"
+        android:id="@+id/obdDataFragment"
         android:icon="@drawable/ic_baseline_directions_car_24"
         android:title="OBD 데이터" />
     <item
-        android:id="@+id/myMenu"
+        android:id="@+id/myMenuFragment"
         android:icon="@drawable/ic_baseline_account_circle_24"
         android:title="마이메뉴" />
 </menu>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/obdDataFragment">
+
+    <fragment
+        android:id="@+id/obdDataFragment"
+        android:name="com.example.egoeco_app.view.ObdDataFragment"
+        android:label="ObdDataFragment" >
+        <action
+            android:id="@+id/action_obdDataFragment_to_publicDataFragment"
+            app:destination="@id/publicDataFragment" />
+        <action
+            android:id="@+id/action_obdDataFragment_to_myMenuFragment"
+            app:destination="@id/myMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myMenuFragment"
+        android:name="com.example.egoeco_app.view.MyMenuFragment"
+        android:label="fragment_my_menu"
+        tools:layout="@layout/fragment_my_menu" />
+    <fragment
+        android:id="@+id/publicDataFragment"
+        android:name="com.example.egoeco_app.view.PublicDataFragment"
+        android:label="fragment_public_data"
+        tools:layout="@layout/fragment_public_data" />
+</navigation>
