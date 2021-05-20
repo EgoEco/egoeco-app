@@ -30,23 +30,6 @@ class MainActivity : RxAppCompatActivity() {
         binding.bottomNavigationView.apply {
             setupWithNavController(navController)
             selectedItemId = R.id.obdDataFragment
-//            setOnNavigationItemSelectedListener {
-//                when (it.itemId) {
-//                    R.id.obdDataFragment -> {
-//                        Log.d("KHJ", "obdData selected!")
-//                        true
-//                    }
-//                    R.id.publicDataFragment -> {
-//                        Log.d("KHJ", "publicDataFragment selected!")
-//                        true
-//                    }
-//                    R.id.myMenuFragment -> {
-//                        Log.d("KHJ", "myMenu selected!")
-//                        true
-//                    }
-//                    else -> true
-//                }
-//            }
         }
     }
 }
