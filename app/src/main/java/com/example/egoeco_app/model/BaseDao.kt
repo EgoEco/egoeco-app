@@ -4,7 +4,7 @@ import androidx.room.*
 import io.reactivex.rxjava3.core.Completable
 
 @Dao
-interface BaseDAO<T> {
+interface BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg obj: T): Completable
 

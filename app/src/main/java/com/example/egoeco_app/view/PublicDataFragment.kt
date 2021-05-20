@@ -5,9 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.example.egoeco_app.R
+import com.example.egoeco_app.databinding.FragmentPublicDataBinding
+import com.example.egoeco_app.viewmodel.MyMenuViewModel
+import com.trello.rxlifecycle4.components.support.RxFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-class PublicDataFragment : Fragment() {
+@AndroidEntryPoint
+class PublicDataFragment : RxFragment() {
+    private val binding: FragmentPublicDataBinding by lazy {
+        FragmentPublicDataBinding.inflate(
+            layoutInflater
+        )
+    }
+    private val viewModel: MyMenuViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

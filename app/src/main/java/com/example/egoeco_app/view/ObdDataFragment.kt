@@ -11,11 +11,13 @@ import com.example.egoeco_app.databinding.FragmentObdDataBinding
 import com.example.egoeco_app.model.OBDData
 import com.example.egoeco_app.viewmodel.ObdDataViewModel
 import com.trello.rxlifecycle4.components.support.RxFragment
+import dagger.hilt.android.AndroidEntryPoint
 import splitties.toast.toast
 
+@AndroidEntryPoint
 class ObdDataFragment : RxFragment() {
-    private val viewModel: ObdDataViewModel by viewModels()
     private val binding by lazy { FragmentObdDataBinding.inflate(layoutInflater) }
+    private val viewModel: ObdDataViewModel by viewModels()
     private val adapter: OBDListAdapter by lazy { OBDListAdapter() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

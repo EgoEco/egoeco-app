@@ -11,8 +11,11 @@ import com.example.egoeco_app.R
 import com.example.egoeco_app.databinding.ActivityMainBinding
 import com.example.egoeco_app.viewmodel.MainViewModel
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 import splitties.toast.toast
 
+@AndroidEntryPoint
 class MainActivity : RxAppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel: MainViewModel by viewModels()
