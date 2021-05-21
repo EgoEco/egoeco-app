@@ -28,8 +28,11 @@ class ObdDataViewModel @Inject internal constructor(
         getAllOBDData()
     }
 
-    fun receiveOBDData() {
+    fun startReceivingOBDData() {
         obdDataReceiving.value = true
+    }
+    fun stopReceivingOBDData() {
+        obdDataReceiving.value = false
     }
 
     fun insertOBDData(data: OBDData) {
@@ -114,7 +117,7 @@ class ObdDataViewModel @Inject internal constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : Observer<List<OBDData>> {
                 override fun onSubscribe(d: Disposable?) {
-                    Log.d("KHJ", "getAllTask() onSubscribe $d")
+                    Log.d("KHJ", "getAllOBDData() onSubscribe $d")
                 }
 
                 override fun onNext(t: List<OBDData>?) {
@@ -124,11 +127,11 @@ class ObdDataViewModel @Inject internal constructor(
                 }
 
                 override fun onError(e: Throwable?) {
-                    Log.d("KHJ", "getAllTask() onError $e")
+                    Log.d("KHJ", "getAllOBDData() onError $e")
                 }
 
                 override fun onComplete() {
-                    Log.d("KHJ", "getAllTask() onComplete")
+                    Log.d("KHJ", "getAllOBDData() onComplete")
                 }
             })
     }

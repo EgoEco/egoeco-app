@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import java.io.Serializable
+import java.text.SimpleDateFormat
 
 @Entity(tableName = "obd_data")
 data class OBDData(
@@ -16,10 +17,18 @@ data class OBDData(
     @ColumnInfo val reserved: Int = 0,
     @ColumnInfo var checkSum: Int = 0,
     @ColumnInfo var rpm: Int = 0,
+    @ColumnInfo var timeStamp: Long = 0,
+    @ColumnInfo var timeString: String = "",
 ) : BaseEntity(), Serializable {
     @Ignore
     fun initCheckSum() {
         checkSum = sumOf(prefix1, prefix2, engRPM_A, engRPM_B, vehicleSpd, ecoDriveLevel, reserved)
+    }
+
+    @Ignore
+    fun initTimeString() {
+        val sdf = SimpleDateFormat("hh:mm:ss")
+        timeString = sdf.format(timeStamp)
     }
 
     @Ignore

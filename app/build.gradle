@@ -114,6 +114,11 @@ dependencies {
     implementation("com.louiscad.splitties:splitties-fun-pack-android-base:$splitties_version")
     implementation("com.louiscad.splitties:splitties-fun-pack-android-material-components:$splitties_version")
 
+    // MPAndroidChart
+
+
+
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
