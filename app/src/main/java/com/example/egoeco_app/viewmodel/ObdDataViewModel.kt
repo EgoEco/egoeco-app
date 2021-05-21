@@ -22,9 +22,14 @@ class ObdDataViewModel @Inject internal constructor(
     //    private val obdDataRepository = OBDDataRepository(db)
     val obdDataList = MutableLiveData<List<OBDData>>()
     val selectedOBDData = MutableLiveData<OBDData>()
+    val obdDataReceiving = MutableLiveData<Boolean>()
 
     init {
         getAllOBDData()
+    }
+
+    fun receiveOBDData() {
+        obdDataReceiving.value = true
     }
 
     fun insertOBDData(data: OBDData) {

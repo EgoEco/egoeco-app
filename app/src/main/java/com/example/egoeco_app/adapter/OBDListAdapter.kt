@@ -41,8 +41,9 @@ class OBDDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val binding: ObdDataViewholderBinding by lazy { ObdDataViewholderBinding.bind(itemView) }
     fun bind(data: OBDData) {
         binding.apply {
-            obdDataVehicleIdTextView.text = data.VehicleSpd.toString()
-            obdDataRPMTextView.text = data.EngRPM_A.toString()
+            rpmTextView.text = data.rpm.toString()
+            spdTextView.text = data.vehicleSpd.toString()
+            ecoDriveLevelTextView.text = data.ecoDriveLevel.toString()
         }
     }
 }

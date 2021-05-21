@@ -20,6 +20,7 @@ class MainActivity : RxAppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_Egoecoapp)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 

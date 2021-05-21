@@ -9,16 +9,22 @@ import java.io.Serializable
 data class OBDData(
     @ColumnInfo var prefix1: Int = 0,
     @ColumnInfo var prefix2: Int = 0,
-    @ColumnInfo var EngRPM_A: Int = 0,
-    @ColumnInfo var EngRPM_B: Int = 0,
-    @ColumnInfo var VehicleSpd: Int = 0,
-    @ColumnInfo var EcoDriveLevel: Int = 0,
+    @ColumnInfo var engRPM_A: Int = 0,
+    @ColumnInfo var engRPM_B: Int = 0,
+    @ColumnInfo var vehicleSpd: Int = 0,
+    @ColumnInfo var ecoDriveLevel: Int = 0,
     @ColumnInfo val reserved: Int = 0,
-    @ColumnInfo var CheckSum: Int = 0,
+    @ColumnInfo var checkSum: Int = 0,
+    @ColumnInfo var rpm: Int = 0,
 ) : BaseEntity(), Serializable {
     @Ignore
     fun initCheckSum() {
-        CheckSum = sumOf(prefix1, prefix2, EngRPM_A, EngRPM_B, VehicleSpd, EcoDriveLevel, reserved)
+        checkSum = sumOf(prefix1, prefix2, engRPM_A, engRPM_B, vehicleSpd, ecoDriveLevel, reserved)
+    }
+
+    @Ignore
+    fun initRPM() {
+        rpm = (256 * engRPM_A + engRPM_B) / 4
     }
 
     @Ignore
@@ -30,12 +36,12 @@ data class OBDData(
     fun getRawByteData() = sumOf(
         prefix1,
         prefix2,
-        EngRPM_A,
-        EngRPM_B,
-        VehicleSpd,
-        EcoDriveLevel,
+        engRPM_A,
+        engRPM_B,
+        vehicleSpd,
+        ecoDriveLevel,
         reserved,
-        CheckSum
+        checkSum
     ).toString(16)
 
     @Ignore

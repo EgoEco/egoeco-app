@@ -19,15 +19,17 @@ Eco
 
 ## Primary To-do List 
 - [ ] Design Application Structures & Design
-- [ ] Prepare MVVM Design with AAC ViewModel
-- [ ] Complete Data Model
+- [X] Prepare MVVM Design with AAC ViewModel (done at 21.05.20)
+- [X] Complete Data Model (done at 21.05.20)
+- [X] Dependency Injection (done at 21.05.20)
 - [ ] Complete Login Activity
 - [ ] Complete MyMenu Fragment
 - [ ] Complete PublicData Fragment
 - [ ] Complete OBD Data Fragment
-- [ ] Make RecyclerView for OBD Data
-- [ ] Make ListAdapter for Control RecyclerView
+- [X] Make RecyclerView for OBD Data (done at 21.05.20)
+- [X] Make ListAdapter for Control RecyclerView (done at 21.05.20)
 - [ ] Collect Log Data from Bluetooth
+- [ ] Import MPAndroidChart and Implement Line Chart
 
 
 ----------------
