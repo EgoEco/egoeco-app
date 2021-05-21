@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/publicDataFragment"
-        android:icon="@drawable/ic_baseline_public_24"
-        android:title="공공데이터" />
+        android:id="@+id/dataVisualizationFragment"
+        android:icon="@drawable/ic_baseline_bar_chart_24"
+        android:title="데이터 시각화" />
     <item
         android:id="@+id/obdDataFragment"
         android:icon="@drawable/ic_baseline_directions_car_24"

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.egoeco_app.viewmodel.ObdDataViewModel" />
+            type="com.example.egoeco_app.viewmodel.MainViewModel" />
     </data>
 
 

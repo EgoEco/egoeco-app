@@ -11,7 +11,7 @@
         android:label="ObdDataFragment" >
         <action
             android:id="@+id/action_obdDataFragment_to_publicDataFragment"
-            app:destination="@id/publicDataFragment" />
+            app:destination="@id/dataVisualizationFragment" />
         <action
             android:id="@+id/action_obdDataFragment_to_myMenuFragment"
             app:destination="@id/myMenuFragment" />
@@ -22,8 +22,8 @@
         android:label="fragment_my_menu"
         tools:layout="@layout/fragment_my_menu" />
     <fragment
-        android:id="@+id/publicDataFragment"
-        android:name="com.example.egoeco_app.view.PublicDataFragment"
+        android:id="@+id/dataVisualizationFragment"
+        android:name="com.example.egoeco_app.view.DataVisualizationFragment"
         android:label="fragment_public_data"
-        tools:layout="@layout/fragment_public_data" />
+        tools:layout="@layout/fragment_data_visualization" />
 </navigation>

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -13,6 +14,7 @@ import com.example.egoeco_app.R
 import com.example.egoeco_app.adapter.OBDListAdapter
 import com.example.egoeco_app.databinding.FragmentObdDataBinding
 import com.example.egoeco_app.model.OBDData
+import com.example.egoeco_app.viewmodel.MainViewModel
 import com.example.egoeco_app.viewmodel.ObdDataViewModel
 import com.trello.rxlifecycle4.components.support.RxFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +32,7 @@ import kotlin.random.Random
 @AndroidEntryPoint
 class ObdDataFragment : RxFragment() {
     private val binding by lazy { FragmentObdDataBinding.inflate(layoutInflater) }
-    private val viewModel: ObdDataViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
     private val adapter: OBDListAdapter by lazy { OBDListAdapter() }
     private var receivingDataState = false
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,14 +60,16 @@ class ObdDataFragment : RxFragment() {
                 }
             }
         }
+        receivingDataState = viewModel.obdDataReceiving.value ?: false
         var intervalSubscription: Disposable = Observable.empty<Unit>().subscribe()
         intervalSubscription.dispose()
         viewModel.obdDataReceiving.observe(viewLifecycleOwner) {
             receivingDataState = it
-            when (it) {
+            toast("receivingDataState: $receivingDataState")
+            when (receivingDataState) {
                 true -> {
                     intervalSubscription = Observable.interval(500L, 500L, TimeUnit.MILLISECONDS)
-                        .takeWhile { receivingDataState }
+//                        .takeWhile { receivingDataState }
                         .subscribeOn(Schedulers.io())
                         .subscribe { insertRandomData() }
                     binding.startButton.setImageResource(R.drawable.ic_baseline_stop_circle_24)
@@ -96,11 +100,10 @@ class ObdDataFragment : RxFragment() {
         val data = OBDData()
         data.prefix1 = "0x55".removePrefix("0x").toInt(16)
         data.prefix2 = "0x01".removePrefix("0x").toInt(16)
-        data.engRPM_A = "0x00".removePrefix("0x").toInt(16) + Random.nextInt(50)
-        data.engRPM_B = "0x00".removePrefix("0x").toInt(16) + Random.nextInt(50)
-        data.vehicleSpd = "0x00".removePrefix("0x").toInt(16) + Random.nextInt(50)
-        data.ecoDriveLevel = "0x03".removePrefix("0x").toInt(16)
-        data.checkSum = "0x55".removePrefix("0x").toInt(16)
+        data.engRPM_A = "0x05".removePrefix("0x").toInt(16) + Random.nextInt(50)
+        data.engRPM_B = "0x05".removePrefix("0x").toInt(16) + Random.nextInt(50)
+        data.vehicleSpd = "0x10".removePrefix("0x").toInt(16) + Random.nextInt(35)
+        data.ecoDriveLevel = "0x01".removePrefix("0x").toInt(16) + Random.nextInt(5)
         data.timeStamp = System.currentTimeMillis()
         data.initCheckSum()
         data.initRPM()
