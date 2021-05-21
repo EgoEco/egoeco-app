@@ -65,7 +65,7 @@ class ObdDataFragment : RxFragment() {
         intervalSubscription.dispose()
         viewModel.obdDataReceiving.observe(viewLifecycleOwner) {
             receivingDataState = it
-            toast("receivingDataState: $receivingDataState")
+//            toast("receivingDataState: $receivingDataState")
             when (receivingDataState) {
                 true -> {
                     intervalSubscription = Observable.interval(500L, 500L, TimeUnit.MILLISECONDS)

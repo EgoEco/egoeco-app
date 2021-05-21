@@ -48,9 +48,24 @@ class DataVisualizationFragment : RxFragment() {
             val dataset = LineDataSet(entryList.sortedBy { entry -> entry.x }, "RPM")
 //        dataset.colors = ColorTemplate.COLORFUL_COLORS.toList()
             val data = LineData(dataset)
-            binding.chart.data = data
-            binding.chart.notifyDataSetChanged()
-            binding.chart.invalidate()
+            binding.apply {
+                chart.data = data
+                chart.notifyDataSetChanged()
+                chart.invalidate()
+                val lastData = it.last()
+                visualTimeTextView.text = lastData.timeString
+                visualRPMTextView.text = lastData.rpm.toString()
+                visualSpdTextView.text = lastData.vehicleSpd.toString()
+                visualEcoLvTextView.text = lastData.ecoDriveLevel.toString()
+                when (lastData.ecoDriveLevel) {
+                    1 -> visualEcoLvTextView.setTextColor(Color.RED)
+                    2 -> visualEcoLvTextView.setTextColor(Color.YELLOW)
+                    3 -> visualEcoLvTextView.setTextColor(Color.GRAY)
+                    4 -> visualEcoLvTextView.setTextColor(Color.BLUE)
+                    5 -> visualEcoLvTextView.setTextColor(Color.GREEN)
+                    6 -> visualEcoLvTextView.setTextColor(Color.DKGRAY)
+                }
+            }
         }
         binding.chart.apply {
             animateY(1000)
