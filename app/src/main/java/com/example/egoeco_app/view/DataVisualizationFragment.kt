@@ -39,37 +39,55 @@ class DataVisualizationFragment : RxFragment() {
             lifecycleOwner = this@DataVisualizationFragment
         }
         var entryList: List<Entry>
+        var colorList: List<Int>
         val sdf = SimpleDateFormat("ss.SS")
         viewModel.obdDataList.observe(viewLifecycleOwner) {
             entryList = it.takeLast(12).map { data ->
                 Entry(sdf.format(data.timeStamp).toFloat(), data.rpm.toFloat())
             }
-            Log.d("KHJ", "entryList: $entryList")
-            val dataset = LineDataSet(entryList.sortedBy { entry -> entry.x }, "RPM")
-//        dataset.colors = ColorTemplate.COLORFUL_COLORS.toList()
-            val data = LineData(dataset)
-            binding.apply {
-                chart.data = data
-                chart.notifyDataSetChanged()
-                chart.invalidate()
-                val lastData = it.last()
-                visualTimeTextView.text = lastData.timeString
-                visualRPMTextView.text = lastData.rpm.toString()
-                visualSpdTextView.text = lastData.vehicleSpd.toString()
-                visualEcoLvTextView.text = lastData.ecoDriveLevel.toString()
-                when (lastData.ecoDriveLevel) {
-                    1 -> visualEcoLvTextView.setTextColor(Color.RED)
-                    2 -> visualEcoLvTextView.setTextColor(Color.YELLOW)
-                    3 -> visualEcoLvTextView.setTextColor(Color.GRAY)
-                    4 -> visualEcoLvTextView.setTextColor(Color.BLUE)
-                    5 -> visualEcoLvTextView.setTextColor(Color.GREEN)
-                    6 -> visualEcoLvTextView.setTextColor(Color.DKGRAY)
+            colorList = it.takeLast(12).map { data ->
+                when (data.ecoDriveLevel) {
+                    0 -> Color.GRAY
+                    1 -> Color.RED
+                    2 -> Color.YELLOW
+                    3 -> Color.GRAY
+                    4 -> Color.BLUE
+                    5 -> Color.GREEN
+                    else -> Color.DKGRAY
+                }
+            }
+            if (entryList.isNotEmpty()) {
+                Log.d("KHJ", "entryList: $entryList")
+                val dataset = LineDataSet(entryList.sortedBy { entry -> entry.x }, "RPM")
+//                dataset.colors = ColorTemplate.COLORFUL_COLORS.toList()
+                dataset.colors = colorList
+                val data = LineData(dataset)
+                binding.apply {
+                    chart.data = data
+                    chart.notifyDataSetChanged()
+                    chart.invalidate()
+                    val lastData = it.last()
+                    visualTimeTextView.text = lastData.timeString
+                    visualRPMTextView.text = lastData.rpm.toString()
+                    visualSpdTextView.text = lastData.vehicleSpd.toString()
+                    visualEcoLvTextView.text = lastData.ecoDriveLevel.toString()
+                    visualEcoLvTextView.setTextColor(
+                        when (lastData.ecoDriveLevel) {
+                            1 -> Color.RED
+                            2 -> Color.YELLOW
+                            3 -> Color.GRAY
+                            4 -> Color.BLUE
+                            5 -> Color.GREEN
+                            else -> Color.DKGRAY
+                        }
+                    )
                 }
             }
         }
         binding.chart.apply {
             animateY(1000)
             description.text = "Desc"
+            minimumWidth = 60
             axisLeft.textColor = Color.WHITE
             axisRight.textColor = Color.WHITE
             xAxis.textColor = Color.WHITE

@@ -16,6 +16,8 @@ import com.example.egoeco_app.databinding.FragmentObdDataBinding
 import com.example.egoeco_app.model.OBDData
 import com.example.egoeco_app.viewmodel.MainViewModel
 import com.example.egoeco_app.viewmodel.ObdDataViewModel
+import com.trello.rxlifecycle4.android.ActivityEvent
+import com.trello.rxlifecycle4.android.FragmentEvent
 import com.trello.rxlifecycle4.components.support.RxFragment
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.core.Observable
