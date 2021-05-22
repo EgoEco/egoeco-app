@@ -141,5 +141,15 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_baseline_directions_car_24"
+            android:text="차량 정보"
+            app:cornerRadius="15dp"
+            tools:layout_editor_absoluteX="86dp"
+            tools:layout_editor_absoluteY="405dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
