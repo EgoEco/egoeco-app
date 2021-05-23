@@ -23,13 +23,13 @@ Eco
 - [X] Complete Data Model (done at 21.05.20)
 - [X] Dependency Injection (done at 21.05.20)
 - [X] Complete Login Activity
-- [ ] Implement Login 
+- [ ] Implement Login with Retrofit
 - [ ] Complete MyMenu Fragment
 - [X] Complete OBD Data Fragment (done at 21.05.22)
 - [X] Make RecyclerView for OBD Data (done at 21.05.20)
 - [X] Make ListAdapter for Control RecyclerView (done at 21.05.20)
-- [ ] Connect with Bluetooth
-- [ ] Collect Log Data from Bluetooth
+- [X] Connect with Bluetooth (done at 21.05.23)
+- [ ] Collect Log Data from Bluetooth and Apply it to RecyclerView
 - [X] Import MPAndroidChart and Implement Line Chart (done at 21.05.22)
 - [X] Complete Data Visualization Fragment (done at 21.05.22)
 
