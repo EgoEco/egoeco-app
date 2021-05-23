@@ -21,7 +21,7 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideUserDao(appDatabase: AppDatabase): OBDDataDao {
+    fun provideOBDDataDao(appDatabase: AppDatabase): OBDDataDao {
         return appDatabase.obdDataDao()
     }
 }

@@ -18,18 +18,20 @@ Eco
 - Keep on : AAC ViewModel, Single Activity
 
 ## Primary To-do List 
-- [ ] Design Application Structures & Design
+- [X] Design Application Structures & Design (done at 21.05.20)
 - [X] Prepare MVVM Design with AAC ViewModel (done at 21.05.20)
 - [X] Complete Data Model (done at 21.05.20)
 - [X] Dependency Injection (done at 21.05.20)
-- [ ] Complete Login Activity
+- [X] Complete Login Activity
+- [ ] Implement Login 
 - [ ] Complete MyMenu Fragment
-- [ ] Complete PublicData Fragment
-- [ ] Complete OBD Data Fragment
+- [X] Complete OBD Data Fragment (done at 21.05.22)
 - [X] Make RecyclerView for OBD Data (done at 21.05.20)
 - [X] Make ListAdapter for Control RecyclerView (done at 21.05.20)
+- [ ] Connect with Bluetooth
 - [ ] Collect Log Data from Bluetooth
-- [ ] Import MPAndroidChart and Implement Line Chart
+- [X] Import MPAndroidChart and Implement Line Chart (done at 21.05.22)
+- [X] Complete Data Visualization Fragment (done at 21.05.22)
 
 
 ----------------

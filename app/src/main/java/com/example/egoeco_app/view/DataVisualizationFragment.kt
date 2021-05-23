@@ -47,13 +47,9 @@ class DataVisualizationFragment : RxFragment() {
             }
             colorList = it.takeLast(12).map { data ->
                 when (data.ecoDriveLevel) {
-                    0 -> Color.GRAY
-                    1 -> Color.RED
-                    2 -> Color.YELLOW
-                    3 -> Color.GRAY
-                    4 -> Color.BLUE
-                    5 -> Color.GREEN
-                    else -> Color.DKGRAY
+                    in 1..2 -> Color.RED
+                    in 3..5 -> Color.GREEN
+                    else -> Color.YELLOW
                 }
             }
             if (entryList.isNotEmpty()) {
