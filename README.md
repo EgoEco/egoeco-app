@@ -22,8 +22,8 @@ Eco
 - [X] Prepare MVVM Design with AAC ViewModel (done at 21.05.20)
 - [X] Complete Data Model (done at 21.05.20)
 - [X] Dependency Injection (done at 21.05.20)
-- [X] Complete Login Activity
 - [ ] Implement Login with Retrofit
+- [ ] Complete Login Activity
 - [ ] Complete MyMenu Fragment
 - [X] Complete OBD Data Fragment (done at 21.05.22)
 - [X] Make RecyclerView for OBD Data (done at 21.05.20)
