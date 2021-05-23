@@ -4,6 +4,9 @@
     package="com.example.egoeco_app"
     tools:ignore="MissingLeanbackLauncher">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <uses-feature
         android:name="android.software.leanback"
         android:required="false" />

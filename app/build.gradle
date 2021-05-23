@@ -68,37 +68,45 @@ dependencies {
     // Jetpack Compose Integration
     implementation "androidx.navigation:navigation-compose:2.4.0-alpha01"
 
-    def room_version = "2.3.0-rc01"
+    // Room DB
+    def room_version = '2.4.0-alpha02'
     //noinspection GradleDependency
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava3:2.4.0-alpha02"
 
-    implementation "com.google.dagger:hilt-android:2.31-alpha"
-    kapt "com.google.dagger:hilt-android-compiler:2.31-alpha"
+    // dagger-hilt
+    implementation 'com.google.dagger:hilt-android:2.33-beta'
+    kapt 'com.google.dagger:hilt-android-compiler:2.33-beta'
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
 
+    // Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
+    // Retrofit
 //    implementation "com.squareup.retrofit2:retrofit:2.9.0"
 //    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 //    implementation "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
 
+    // okhttp3
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.1"))
     implementation 'com.squareup.okhttp3:okhttp'
     implementation 'com.squareup.okhttp3:logging-interceptor'
 
-    implementation "com.squareup.okio:okio:2.3.0"
+    // okio
+    implementation 'com.squareup.okio:okio:3.0.0-alpha.1'
 
+    // rxlifecycle
     implementation 'com.trello.rxlifecycle4:rxlifecycle-kotlin:4.0.2'
     implementation 'com.trello.rxlifecycle4:rxlifecycle-android:4.0.2'
     implementation 'com.trello.rxlifecycle4:rxlifecycle-components:4.0.2'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation "io.reactivex.rxjava3:rxjava:3.0.11"
 
+    // rxbinding
     implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
     implementation 'com.jakewharton.rxbinding4:rxbinding-core:4.0.0'
     implementation 'com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0'
@@ -111,6 +119,7 @@ dependencies {
     implementation 'com.jakewharton.rxbinding4:rxbinding-viewpager2:4.0.0'
     implementation 'com.jakewharton.rxbinding4:rxbinding-material:4.0.0'
 
+    // splitties
     def splitties_version = "3.0.0-beta01"
     implementation("com.louiscad.splitties:splitties-fun-pack-android-base:$splitties_version")
     implementation("com.louiscad.splitties:splitties-fun-pack-android-material-components:$splitties_version")
@@ -118,10 +127,7 @@ dependencies {
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-
-
-
     testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
