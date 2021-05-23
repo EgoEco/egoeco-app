@@ -15,7 +15,7 @@ Eco
 - min SDK : 23
 - Target SDK : 30  
 - Implement : RxAndroid, RxJava, RxLifeCycle, Glide, Navigation, Room
-- Keep on : AAC ViewModel, Single Activity
+- Keep on : AAC ViewModel, MVVM Pattern, Single Activity
 
 ## Primary To-do List 
 - [X] Design Application Structures & Design (done at 21.05.20)
