@@ -1,10 +1,21 @@
 package com.example.egoeco_app.view
 
+import android.Manifest
+import android.content.ActivityNotFoundException
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,12 +63,20 @@ class ObdDataFragment : RxFragment() {
             obdRecyclerView.adapter = adapter
             obdRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             startButton.setOnClickListener {
-                when (receivingDataState) {
-                    true -> {
-                        this@ObdDataFragment.viewModel.stopReceivingOBDData()
+                if (checkLocationPermission()) {
+                    when (receivingDataState) {
+                        true -> {
+                            this@ObdDataFragment.viewModel.stopReceivingOBDData()
+                        }
+                        false -> {
+                            this@ObdDataFragment.viewModel.startReceivingOBDData()
+                        }
                     }
-                    false -> {
-                        this@ObdDataFragment.viewModel.startReceivingOBDData()
+                } else {
+                    toast("권한을 승인해야합니다.")
+                    requestLocationPermission()
+                    if (!checkLocationPermission()) {
+                        showPermissionAlert()
                     }
                 }
             }
@@ -67,7 +86,7 @@ class ObdDataFragment : RxFragment() {
         intervalSubscription.dispose()
         viewModel.obdDataReceiving.observe(viewLifecycleOwner) {
             receivingDataState = it
-//            toast("receivingDataState: $receivingDataState")
+            toast("receivingDataState: $receivingDataState")
             when (receivingDataState) {
                 true -> {
                     intervalSubscription = Observable.interval(500L, 500L, TimeUnit.MILLISECONDS)
@@ -111,5 +130,76 @@ class ObdDataFragment : RxFragment() {
         data.initRPM()
         data.initTimeString()
         viewModel.insertOBDData(data)
+    }
+
+    fun checkLocationPermission(): Boolean {
+        val fineLocationPermission = ActivityCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        Log.d("KHJ","fineLocationPermission: $fineLocationPermission")
+        val coarseLocationPermission = ActivityCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        Log.d("KHJ","coarseLocationPermission: $coarseLocationPermission")
+//        return fineLocationPermission == PackageManager.PERMISSION_GRANTED
+//                && coarseLocationPermission == PackageManager.PERMISSION_GRANTED
+        return coarseLocationPermission == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(
+//                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ),
+            MainViewModel.LOCATION_PERMISSION_CODE
+        )
+    }
+
+    fun showPermissionAlert() {
+        AlertDialog.Builder(requireContext()).setTitle("권한 설정")
+            .setMessage("권한 거절로 인해 일부기능이 제한됩니다.")
+            .setPositiveButton(
+                "권한 설정"
+            ) { dialog, which ->
+                try {
+                    val intent =
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                            .setData(Uri.parse("package:" + requireContext().packageName));
+                    startActivity(intent);
+                } catch (e: ActivityNotFoundException) {
+                    Log.e("KHJ", "error in permission activity $e")
+                    e.printStackTrace();
+                    val intent =
+                        Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                    startActivity(intent);
+                }
+            }
+            .create()
+            .show();
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            MainViewModel.LOCATION_PERMISSION_CODE -> {
+                when (resultCode) {
+                    AppCompatActivity.RESULT_OK -> {
+                        toast("RESULT_OK")
+                    }
+                    AppCompatActivity.RESULT_CANCELED -> {
+                        toast("RESULT_CANCELED")
+                    }
+                    else -> {
+                        toast("RESULT_UNKNOWN")
+                    }
+                }
+            }
+            else -> {
+                toast("Unknown requestCode")
+            }
+        }
     }
 }

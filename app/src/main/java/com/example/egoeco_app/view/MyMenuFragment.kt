@@ -11,6 +11,7 @@ import com.example.egoeco_app.R
 import com.example.egoeco_app.databinding.FragmentMyMenuBinding
 import com.example.egoeco_app.viewmodel.MainViewModel
 import com.example.egoeco_app.viewmodel.MyMenuViewModel
+import com.jakewharton.rxbinding4.view.clicks
 import com.trello.rxlifecycle4.components.support.RxFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,6 +33,7 @@ class MyMenuFragment : RxFragment() {
             viewModel = this@MyMenuFragment.viewModel
             lifecycleOwner = this@MyMenuFragment
         }
+        binding.button2.clicks()
         return binding.root
     }
 }

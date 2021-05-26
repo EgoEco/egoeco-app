@@ -20,6 +20,9 @@ class MainViewModel @Inject internal constructor(
     val obdDataList = MutableLiveData<List<OBDData>>()
     val selectedOBDData = MutableLiveData<OBDData>()
     val obdDataReceiving = MutableLiveData<Boolean>(false)
+    companion object {
+        const val LOCATION_PERMISSION_CODE = 1
+    }
 
     init {
         getAllOBDData()
