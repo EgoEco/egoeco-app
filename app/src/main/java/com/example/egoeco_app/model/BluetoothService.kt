@@ -18,7 +18,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.CompletableObserver
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-//import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.io.IOException
@@ -35,12 +34,13 @@ class BluetoothService : Service() {
     var serviceState = false
 
     val connectionState = MutableLiveData<Int>(-1)
-    val scanComplete = MutableLiveData<Boolean>(true)
+    val scanningState = MutableLiveData<Int>(-1)
+    val pairingState = MutableLiveData<Int>(-1)
     val pairable = MutableLiveData<Boolean>(false)
-    val adapter by lazy { RxBluetoothAdapter(application) }
-    var mDevice: BluetoothDevice? = null
-    var mSocket: BluetoothSocket? = null
-    val bluetoothDeviceList = mutableListOf<BluetoothDevice>()
+    private val adapter by lazy { RxBluetoothAdapter(application) }
+    private var mDevice: BluetoothDevice? = null
+    private var mSocket: BluetoothSocket? = null
+    private val bluetoothDeviceList = mutableListOf<BluetoothDevice>()
 
     companion object {
         const val ACTION_START = "com.example.egoeco_app.START"
@@ -61,6 +61,7 @@ class BluetoothService : Service() {
         super.onCreate()
     }
 
+    @ExperimentalUnsignedTypes
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val action = intent?.action
         Log.d("KHJ", "Bluetooth Service onStartCommand() action: $action")
@@ -108,15 +109,16 @@ class BluetoothService : Service() {
             .build()
     }
 
-    @ExperimentalUnsignedTypes
     private fun startBluetooth() {
+        Log.d("KHJ", "Start Bluetooth")
         initialize()
         scan()
-        pair()
-        connect()
+//        pair()
+//        connect()
     }
 
     private fun initialize() {
+        Log.d("KHJ", "Start Initializing Sequence")
         val connectionDisposable = RxBluetoothAdapter(applicationContext).connectionEventStream
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
@@ -138,6 +140,7 @@ class BluetoothService : Service() {
                 }
             }) { error ->
                 Log.e("KHJ", "error in connectionState $error")
+                connectionState.value = -1
             }
 
         val scanningDisposable = adapter.scanStateStream
@@ -150,32 +153,34 @@ class BluetoothService : Service() {
             })
     }
 
-    fun scan() {
+    private fun scan() {
+        Log.d("KHJ", "Start Scanning Sequence")
         val disposable = adapter.startDeviceScan()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ device ->
                 // Process next discovered device
-                scanComplete.value = false
                 Log.d(
                     "KHJ",
                     "device: ${device.address} ${device.name} ${device.type} ${device.bondState}"
                 )
+                scanningState.value = 0
                 if (device !in bluetoothDeviceList) bluetoothDeviceList.add(device)
                 if (pairable.value == false && device.name == "HC-06") pairable.value = true
             }, { error ->
                 Log.e("KHJ", "in scan() error: $error")
-                scanComplete.value = true
+                scanningState.value = -1
                 // Handle error
             }, {
                 Log.d("KHJ", "Scan Complete.")
-                scanComplete.value = true
+                scanningState.value = 1
+                pair()
                 // Scan complete
-            }
-            )
+            })
     }
 
-    fun pair() {
+    private fun pair() {
+        Log.d("KHJ", "Start Pairing Sequence")
         Log.d("KHJ", "bluetoothDeviceList: $bluetoothDeviceList")
         mDevice = bluetoothDeviceList.find { it.name == "HC-06" }
         val device = mDevice
@@ -187,6 +192,7 @@ class BluetoothService : Service() {
                 .subscribe({ result ->
                     // Process pairing result
                     Log.d("KHJ", "pairing result: $result")
+                    if (result) connect()
                 }, { error ->
                     // Handle error
                     Log.e("KHJ", "error in pairing: $error")
@@ -207,18 +213,18 @@ class BluetoothService : Service() {
             ecoDriveLevel = byteList[5].toInt()
             checkSum = byteList[7].toInt()
             timeStamp = System.currentTimeMillis()
-            if (!validate()) return null
+//            if (!validate()) return null
             initRPM()
             initTimeString()
         }
     }
 
 
-    @ExperimentalUnsignedTypes
     fun connect() {
+        Log.d("KHJ", "Start Connecting Sequence")
         val device = mDevice
         if (device != null) {
-            val disposable = adapter.connectToDevice(device)
+            val connectDisposable = adapter.connectToDevice(device)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ socket ->
@@ -226,7 +232,7 @@ class BluetoothService : Service() {
                     Log.d("KHJ", "Connection Successful. socket: $socket")
                     mSocket = socket
                     val subject = PublishSubject.create<ByteArray>()
-                    val disposable = subject
+                    val subjectDisposable = subject
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ byteArray ->
@@ -299,6 +305,11 @@ class BluetoothService : Service() {
                     subject.onError(e)
                     break
                 } catch (e: NullPointerException) {
+                    Log.e("KHJ", "in ConnectedBluetoothThread $e")
+                    disconnectSocket()
+                    subject.onError(e)
+                    break
+                } catch (e: Exception) {
                     Log.e("KHJ", "in ConnectedBluetoothThread $e")
                     disconnectSocket()
                     subject.onError(e)

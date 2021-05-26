@@ -92,6 +92,6 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_not_started_24" />
+        app:srcCompat="@drawable/ic_baseline_bluetooth_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

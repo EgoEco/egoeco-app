@@ -93,7 +93,7 @@ class ObdDataFragment : RxFragment() {
         }
 */
 
-//        viewModel.
+
         viewModel.obdDataList.observe(viewLifecycleOwner) {
             Log.d("KHJ", "obdDataList.observe, task: $it")
             adapter.submitList(it)
@@ -132,12 +132,13 @@ class ObdDataFragment : RxFragment() {
         return coarseLocationPermission == PackageManager.PERMISSION_GRANTED
     }
 
-    fun requestLocationPermission() {
+    private fun requestLocationPermission() {
         ActivityCompat.requestPermissions(
             requireActivity(),
             arrayOf(
-//                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
             ),
             MainViewModel.LOCATION_PERMISSION_CODE
         )

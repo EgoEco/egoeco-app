@@ -1,5 +1,6 @@
 package com.example.egoeco_app.model
 
+import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -22,6 +23,17 @@ data class OBDData(
 ) : BaseEntity(), Serializable {
     @Ignore
     fun validate(): Boolean {
+        Log.d("KHJ","checkSum: $checkSum")
+        val sum = sumOf(
+            prefix1,
+            prefix2,
+            engRPM_A,
+            engRPM_B,
+            vehicleSpd,
+            ecoDriveLevel,
+            reserved
+        )
+        Log.d("KHJ","sum: $sum")
         return checkSum == sumOf(
             prefix1,
             prefix2,

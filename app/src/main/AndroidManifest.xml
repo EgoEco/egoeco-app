@@ -30,9 +30,6 @@
         <service
             android:name=".model.BluetoothService"
             android:enabled="true"
-            android:exported="true"></service>
-        <service
-            android:name=".model.MyIntentService"
             android:exported="false" />
 
         <activity
