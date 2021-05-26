@@ -31,6 +31,8 @@ Eco
 - [X] Connect with Bluetooth (done at 21.05.23)
 - [X] Complete Bluetooth Service (done at 21.05.26)
 - [X] Collect Log Data from Bluetooth and Apply it to RecyclerView (done at 21.05.26)
+- [ ] Implementation ViewModel-Service Broadcast & Control UI along with Bluetooth Service
+- [ ] Exception Handling When Socket Connection Failed
 - [X] Import MPAndroidChart and Implement Line Chart (done at 21.05.22)
 - [X] Complete Data Visualization Fragment (done at 21.05.22)
 

@@ -76,7 +76,8 @@ class BluetoothService : Service() {
                 }
             }
         }
-        return super.onStartCommand(intent, flags, startId)
+//        return super.onStartCommand(intent, flags, startId)
+        return START_STICKY_COMPATIBILITY
     }
 
     override fun onDestroy() {

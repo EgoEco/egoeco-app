@@ -123,7 +123,7 @@ class ObdDataFragment : RxFragment() {
         viewModel.insertOBDData(data)
     }
 
-    fun checkLocationPermission(): Boolean {
+    private fun checkLocationPermission(): Boolean {
         val coarseLocationPermission = ActivityCompat.checkSelfPermission(
             requireActivity(),
             Manifest.permission.ACCESS_COARSE_LOCATION
@@ -188,11 +188,11 @@ class ObdDataFragment : RxFragment() {
         }
     }
 
-    fun startService() {
+    private fun startService() {
         viewModel.startService()
     }
 
-    fun stopService() {
+    private fun stopService() {
         viewModel.stopService()
     }
 }

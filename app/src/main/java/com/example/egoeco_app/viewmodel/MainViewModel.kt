@@ -3,6 +3,8 @@ package com.example.egoeco_app.viewmodel
 import android.app.Application
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
@@ -39,10 +41,17 @@ class MainViewModel @Inject internal constructor(
     }
 
     fun startService() {
-        Log.d("KHJ","ViewModel startService")
+        Log.d("KHJ", "ViewModel startService")
         val serviceIntent = Intent(getApplication(), BluetoothService::class.java)
         serviceIntent.action = BluetoothService.ACTION_START
         getApplication<Application>().startForegroundService(serviceIntent)
+        val broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                intent?.let {
+                    val str = it.getStringExtra("")
+                }
+            }
+        }
     }
 
     fun stopService() {
