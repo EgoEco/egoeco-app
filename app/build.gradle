@@ -87,9 +87,9 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
     // Retrofit
-//    implementation "com.squareup.retrofit2:retrofit:2.9.0"
-//    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-//    implementation "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
 
     // okhttp3
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.1"))
@@ -103,8 +103,9 @@ dependencies {
     implementation 'com.trello.rxlifecycle4:rxlifecycle-kotlin:4.0.2'
     implementation 'com.trello.rxlifecycle4:rxlifecycle-android:4.0.2'
     implementation 'com.trello.rxlifecycle4:rxlifecycle-components:4.0.2'
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation "io.reactivex.rxjava3:rxjava:3.0.11"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+//    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+//    implementation "io.reactivex.rxjava3:rxjava:3.0.11"
 
     // rxbinding
     implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
@@ -127,8 +128,13 @@ dependencies {
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    // rxandroidble2 for bluetooth ble
+    implementation "com.polidea.rxandroidble2:rxandroidble:1.12.1"
+
     // rx-bluetooth-adapter for bluetooth classic
     implementation 'com.github.zakaprov:rx-bluetooth-adapter:1.1.1'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.21"
+
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

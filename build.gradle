@@ -3,6 +3,7 @@ buildscript {
     ext.kotlin_version = "1.4.32"
     repositories {
         google()
+        mavenCentral()
         jcenter()
 
         // MPAndroidChart
@@ -24,6 +25,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         // MPAndroidChart
         maven { url 'https://jitpack.io' }
     }

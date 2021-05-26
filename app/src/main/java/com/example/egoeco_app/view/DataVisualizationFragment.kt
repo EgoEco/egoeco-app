@@ -53,7 +53,7 @@ class DataVisualizationFragment : RxFragment() {
                 }
             }
             if (entryList.isNotEmpty()) {
-                Log.d("KHJ", "entryList: $entryList")
+//                Log.d("KHJ", "entryList: $entryList")
                 val dataset = LineDataSet(entryList.sortedBy { entry -> entry.x }, "RPM")
 //                dataset.colors = ColorTemplate.COLORFUL_COLORS.toList()
                 dataset.colors = colorList

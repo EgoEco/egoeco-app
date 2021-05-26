@@ -81,6 +81,7 @@ class ObdDataFragment : RxFragment() {
                 }
             }
         }
+
 /*
         viewModel.obdDataReceiving.observe(viewLifecycleOwner) {
             receivingDataState = it
@@ -116,7 +117,7 @@ class ObdDataFragment : RxFragment() {
         data.vehicleSpd = "0x10".removePrefix("0x").toInt(16) + Random.nextInt(35)
         data.ecoDriveLevel = "0x01".removePrefix("0x").toInt(16) + Random.nextInt(5)
         data.timeStamp = System.currentTimeMillis()
-        data.initCheckSum()
+        data.validate()
         data.initRPM()
         data.initTimeString()
         viewModel.insertOBDData(data)
@@ -191,6 +192,6 @@ class ObdDataFragment : RxFragment() {
     }
 
     fun stopService() {
-        viewModel.startService()
+        viewModel.stopService()
     }
 }

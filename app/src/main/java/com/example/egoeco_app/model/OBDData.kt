@@ -21,8 +21,16 @@ data class OBDData(
     @ColumnInfo var timeString: String = "",
 ) : BaseEntity(), Serializable {
     @Ignore
-    fun initCheckSum() {
-        checkSum = sumOf(prefix1, prefix2, engRPM_A, engRPM_B, vehicleSpd, ecoDriveLevel, reserved)
+    fun validate(): Boolean {
+        return checkSum == sumOf(
+            prefix1,
+            prefix2,
+            engRPM_A,
+            engRPM_B,
+            vehicleSpd,
+            ecoDriveLevel,
+            reserved
+        )
     }
 
     @Ignore

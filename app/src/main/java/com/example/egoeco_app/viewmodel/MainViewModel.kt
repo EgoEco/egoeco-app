@@ -29,13 +29,6 @@ class MainViewModel @Inject internal constructor(
     val obdDataList = MutableLiveData<List<OBDData>>()
     val selectedOBDData = MutableLiveData<OBDData>()
 
-    val connectionState = MutableLiveData<Int>(-1)
-    val scanComplete = MutableLiveData<Boolean>(true)
-    val pairable = MutableLiveData<Boolean>(false)
-    val adapter by lazy { RxBluetoothAdapter(application) }
-    var mDevice: BluetoothDevice? = null
-    var mSocket: BluetoothSocket? = null
-    val bluetoothDeviceList = mutableListOf<BluetoothDevice>()
 
     companion object {
         const val LOCATION_PERMISSION_CODE = 1
@@ -46,13 +39,14 @@ class MainViewModel @Inject internal constructor(
     }
 
     fun startService() {
-        val serviceIntent = Intent(getApplication(), MainActivity::class.java)
+        Log.d("KHJ","ViewModel startService")
+        val serviceIntent = Intent(getApplication(), BluetoothService::class.java)
         serviceIntent.action = BluetoothService.ACTION_START
         getApplication<Application>().startForegroundService(serviceIntent)
     }
 
     fun stopService() {
-        val serviceIntent = Intent(getApplication(), MainActivity::class.java)
+        val serviceIntent = Intent(getApplication(), BluetoothService::class.java)
         serviceIntent.action = BluetoothService.ACTION_STOP
         getApplication<Application>().stopService(serviceIntent)
     }
