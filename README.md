@@ -29,7 +29,8 @@ Eco
 - [X] Make RecyclerView for OBD Data (done at 21.05.20)
 - [X] Make ListAdapter for Control RecyclerView (done at 21.05.20)
 - [X] Connect with Bluetooth (done at 21.05.23)
-- [ ] Collect Log Data from Bluetooth and Apply it to RecyclerView
+- [X] Complete Bluetooth Service (done at 21.05.26)
+- [X] Collect Log Data from Bluetooth and Apply it to RecyclerView (done at 21.05.26)
 - [X] Import MPAndroidChart and Implement Line Chart (done at 21.05.22)
 - [X] Complete Data Visualization Fragment (done at 21.05.22)
 
