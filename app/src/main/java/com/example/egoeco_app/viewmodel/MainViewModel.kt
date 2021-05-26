@@ -1,10 +1,18 @@
 package com.example.egoeco_app.viewmodel
 
+import android.app.Application
+import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothSocket
+import android.content.Intent
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.egoeco_app.model.BluetoothService
 import com.example.egoeco_app.model.DataRepository
 import com.example.egoeco_app.model.OBDData
+import com.example.egoeco_app.view.MainActivity
+import com.github.zakaprov.rxbluetoothadapter.RxBluetoothAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.CompletableObserver
@@ -15,11 +23,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject internal constructor(
+    application: Application,
     private val dataRepository: DataRepository
-) : ViewModel() {
+) : AndroidViewModel(application) {
     val obdDataList = MutableLiveData<List<OBDData>>()
     val selectedOBDData = MutableLiveData<OBDData>()
-    val obdDataReceiving = MutableLiveData<Boolean>(false)
+
+    val connectionState = MutableLiveData<Int>(-1)
+    val scanComplete = MutableLiveData<Boolean>(true)
+    val pairable = MutableLiveData<Boolean>(false)
+    val adapter by lazy { RxBluetoothAdapter(application) }
+    var mDevice: BluetoothDevice? = null
+    var mSocket: BluetoothSocket? = null
+    val bluetoothDeviceList = mutableListOf<BluetoothDevice>()
+
     companion object {
         const val LOCATION_PERMISSION_CODE = 1
     }
@@ -28,12 +45,16 @@ class MainViewModel @Inject internal constructor(
         getAllOBDData()
     }
 
-    fun startReceivingOBDData() {
-        obdDataReceiving.value = true
+    fun startService() {
+        val serviceIntent = Intent(getApplication(), MainActivity::class.java)
+        serviceIntent.action = BluetoothService.ACTION_START
+        getApplication<Application>().startForegroundService(serviceIntent)
     }
 
-    fun stopReceivingOBDData() {
-        obdDataReceiving.value = false
+    fun stopService() {
+        val serviceIntent = Intent(getApplication(), MainActivity::class.java)
+        serviceIntent.action = BluetoothService.ACTION_STOP
+        getApplication<Application>().stopService(serviceIntent)
     }
 
     fun insertOBDData(data: OBDData) {

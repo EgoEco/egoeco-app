@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <uses-feature
         android:name="android.software.leanback"
@@ -27,6 +27,14 @@
         android:roundIcon="@mipmap/egoeco_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Egoecoapp">
+        <service
+            android:name=".model.BluetoothService"
+            android:enabled="true"
+            android:exported="true"></service>
+        <service
+            android:name=".model.MyIntentService"
+            android:exported="false" />
+
         <activity
             android:name=".view.LoginActivity"
             android:theme="@style/splash_theme">
@@ -35,12 +43,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:theme="@style/splash_theme">
-        </activity>
+            android:theme="@style/splash_theme" />
     </application>
 
 </manifest>

@@ -66,10 +66,10 @@ class ObdDataFragment : RxFragment() {
                 if (checkLocationPermission()) {
                     when (receivingDataState) {
                         true -> {
-                            this@ObdDataFragment.viewModel.stopReceivingOBDData()
+                            stopService()
                         }
                         false -> {
-                            this@ObdDataFragment.viewModel.startReceivingOBDData()
+                            startService()
                         }
                     }
                 } else {
@@ -81,26 +81,16 @@ class ObdDataFragment : RxFragment() {
                 }
             }
         }
-        receivingDataState = viewModel.obdDataReceiving.value ?: false
-        var intervalSubscription: Disposable = Observable.empty<Unit>().subscribe()
-        intervalSubscription.dispose()
+/*
         viewModel.obdDataReceiving.observe(viewLifecycleOwner) {
             receivingDataState = it
             toast("receivingDataState: $receivingDataState")
-            when (receivingDataState) {
-                true -> {
-                    intervalSubscription = Observable.interval(500L, 500L, TimeUnit.MILLISECONDS)
-//                        .takeWhile { receivingDataState }
-                        .subscribeOn(Schedulers.io())
-                        .subscribe { insertRandomData() }
-                    binding.startButton.setImageResource(R.drawable.ic_baseline_stop_circle_24)
-                }
-                false -> {
-                    intervalSubscription.dispose()
-                    binding.startButton.setImageResource(R.drawable.ic_baseline_not_started_24)
-                }
+            when (it) {
+                true -> binding.startButton.setImageResource(R.drawable.ic_baseline_stop_circle_24)
+                false -> binding.startButton.setImageResource(R.drawable.ic_baseline_not_started_24)
             }
         }
+*/
 
 //        viewModel.
         viewModel.obdDataList.observe(viewLifecycleOwner) {
@@ -133,18 +123,11 @@ class ObdDataFragment : RxFragment() {
     }
 
     fun checkLocationPermission(): Boolean {
-        val fineLocationPermission = ActivityCompat.checkSelfPermission(
-            requireActivity(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-        Log.d("KHJ","fineLocationPermission: $fineLocationPermission")
         val coarseLocationPermission = ActivityCompat.checkSelfPermission(
             requireActivity(),
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
-        Log.d("KHJ","coarseLocationPermission: $coarseLocationPermission")
-//        return fineLocationPermission == PackageManager.PERMISSION_GRANTED
-//                && coarseLocationPermission == PackageManager.PERMISSION_GRANTED
+        Log.d("KHJ", "coarseLocationPermission: $coarseLocationPermission")
         return coarseLocationPermission == PackageManager.PERMISSION_GRANTED
     }
 
@@ -201,5 +184,13 @@ class ObdDataFragment : RxFragment() {
                 toast("Unknown requestCode")
             }
         }
+    }
+
+    fun startService() {
+        viewModel.startService()
+    }
+
+    fun stopService() {
+        viewModel.startService()
     }
 }
