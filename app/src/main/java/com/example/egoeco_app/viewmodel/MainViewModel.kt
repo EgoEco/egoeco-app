@@ -6,10 +6,13 @@ import android.bluetooth.BluetoothSocket
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.egoeco_app.model.BluetoothBroadcastReceiver
 import com.example.egoeco_app.model.BluetoothService
 import com.example.egoeco_app.model.DataRepository
 import com.example.egoeco_app.model.OBDData
@@ -29,7 +32,11 @@ class MainViewModel @Inject internal constructor(
     private val dataRepository: DataRepository
 ) : AndroidViewModel(application) {
     val obdDataList = MutableLiveData<List<OBDData>>()
-    val selectedOBDData = MutableLiveData<OBDData>()
+    val scanState = MutableLiveData<Int>(-1)
+    val pairState = MutableLiveData<Int>(-1)
+    val connectState = MutableLiveData<Int>(-1)
+
+    lateinit var bluetoothBroadcastReceiver: BluetoothBroadcastReceiver
 
 
     companion object {
@@ -45,19 +52,33 @@ class MainViewModel @Inject internal constructor(
         val serviceIntent = Intent(getApplication(), BluetoothService::class.java)
         serviceIntent.action = BluetoothService.ACTION_START
         getApplication<Application>().startForegroundService(serviceIntent)
-        val broadcastReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                intent?.let {
-                    val str = it.getStringExtra("")
-                }
+        bluetoothBroadcastReceiver = BluetoothBroadcastReceiver()
+        bluetoothBroadcastReceiver.setBluetoothBroadCastReceiverListener(object :
+            BluetoothBroadcastReceiver.BluetoothBroadcastReceiverListener {
+            override fun onScanStateChanged(state: Int) {
+                scanState.value = state
+            }
+
+            override fun onPairStateChanged(state: Int) {
+                pairState.value = state
+            }
+
+            override fun onConnectStateChanged(state: Int) {
+                connectState.value = state
             }
         }
+        )
+        val intentFilter = IntentFilter("bluetoothServiceIntent")
+        LocalBroadcastManager.getInstance(getApplication())
+            .registerReceiver(bluetoothBroadcastReceiver, intentFilter)
     }
 
     fun stopService() {
         val serviceIntent = Intent(getApplication(), BluetoothService::class.java)
         serviceIntent.action = BluetoothService.ACTION_STOP
         getApplication<Application>().stopService(serviceIntent)
+        LocalBroadcastManager.getInstance(getApplication())
+            .unregisterReceiver(bluetoothBroadcastReceiver)
     }
 
     fun insertOBDData(data: OBDData) {

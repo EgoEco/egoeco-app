@@ -9,6 +9,7 @@ import android.os.SystemClock
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.MutableLiveData
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.egoeco_app.R
 import com.example.egoeco_app.view.MainActivity
 import com.github.zakaprov.rxbluetoothadapter.ConnectionState
@@ -21,6 +22,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.io.IOException
+import java.io.Serializable
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,7 +37,6 @@ class BluetoothService : Service() {
 
     val connectionState = MutableLiveData<Int>(-1)
     val scanningState = MutableLiveData<Int>(-1)
-    val pairingState = MutableLiveData<Int>(-1)
     val pairable = MutableLiveData<Boolean>(false)
     private val adapter by lazy { RxBluetoothAdapter(application) }
     private var mDevice: BluetoothDevice? = null
@@ -83,6 +84,7 @@ class BluetoothService : Service() {
     override fun onDestroy() {
         Log.d("KHJ", "BluetoothService onDestroy()")
         serviceState = false
+        disconnect()
         super.onDestroy()
     }
 
@@ -128,20 +130,27 @@ class BluetoothService : Service() {
                     ConnectionState.CONNECTED -> {
                         Log.d("KHJ", "${device.address} - connected")
                         connectionState.value = 1
+                        sendBluetoothBroadcast("connect", 1)
                     }
                     ConnectionState.CONNECTING -> {
                         Log.d("KHJ", "${device.address} - connecting")
                         connectionState.value = 0
+                        sendBluetoothBroadcast("connect", 0)
                     }
                     ConnectionState.DISCONNECTED -> {
                         Log.d("KHJ", "${device.address} - disconnected")
                         connectionState.value = -1
+                        sendBluetoothBroadcast("connect", -1)
                         disconnect()
+                        stopSelf()
                     }
                 }
             }) { error ->
                 Log.e("KHJ", "error in connectionState $error")
+                sendBluetoothBroadcast("connect", -1)
+                disconnect()
                 connectionState.value = -1
+                stopSelf()
             }
 
         val scanningDisposable = adapter.scanStateStream
@@ -149,9 +158,21 @@ class BluetoothService : Service() {
             .subscribeOn(Schedulers.io())
             .subscribe({ isScanning ->
                 Log.d("KHJ", "isScanning: $isScanning")
-            }, { error -> Log.d("KHJ", "error in scanStateStream: $error") }, {
+            }, { error ->
+                Log.d("KHJ", "error in scanStateStream: $error")
+                sendBluetoothBroadcast("scan", -1)
+                disconnect()
+                stopSelf()
+            }, {
                 Log.d("KHJ", "scanStateStream onComplete()")
             })
+    }
+
+    private fun sendBluetoothBroadcast(name: String, value: Int) {
+        val localIntent = Intent("bluetoothServiceIntent")
+            .apply { putExtra(name, value) }
+        LocalBroadcastManager.getInstance(applicationContext)
+            .sendBroadcast(localIntent)
     }
 
     private fun scan() {
@@ -166,15 +187,23 @@ class BluetoothService : Service() {
                     "device: ${device.address} ${device.name} ${device.type} ${device.bondState}"
                 )
                 scanningState.value = 0
+                sendBluetoothBroadcast("scan", 0)
                 if (device !in bluetoothDeviceList) bluetoothDeviceList.add(device)
-                if (pairable.value == false && device.name == "HC-06") pairable.value = true
+                if (pairable.value == false && device.name == "HC-06") {
+                    pairable.value = true
+//                    pair()
+                }
             }, { error ->
                 Log.e("KHJ", "in scan() error: $error")
                 scanningState.value = -1
+                sendBluetoothBroadcast("scan", -1)
+                disconnect()
+                stopSelf()
                 // Handle error
             }, {
                 Log.d("KHJ", "Scan Complete.")
                 scanningState.value = 1
+                sendBluetoothBroadcast("scan", 1)
                 pair()
                 // Scan complete
             })
@@ -193,13 +222,21 @@ class BluetoothService : Service() {
                 .subscribe({ result ->
                     // Process pairing result
                     Log.d("KHJ", "pairing result: $result")
-                    if (result) connect()
+                    if (result) {
+                        sendBluetoothBroadcast("pair", 1)
+                        connect()
+                    }
                 }, { error ->
                     // Handle error
                     Log.e("KHJ", "error in pairing: $error")
+                    sendBluetoothBroadcast("pair", -1)
+                    disconnect()
+                    stopSelf()
                 })
         } else {
             Log.e("KHJ", "in pair() device is null")
+            sendBluetoothBroadcast("pair", -1)
+            stopSelf()
         }
     }
 
@@ -214,7 +251,7 @@ class BluetoothService : Service() {
             ecoDriveLevel = byteList[5].toInt()
             checkSum = byteList[7].toInt()
             timeStamp = System.currentTimeMillis()
-//            if (!validate()) return null
+            if (!validate()) return null
             initRPM()
             initTimeString()
         }
@@ -239,11 +276,15 @@ class BluetoothService : Service() {
                         .subscribe({ byteArray ->
                             val byteList = byteArray.take(8).map { it.toUByte() }
                             val data = makeOBDDataFromByteArray(byteList)
-                            if (data != null) insertOBDData(data)
-                            else Log.d("KHJ", "data is null! maybe failed in validation")
+                            if (data != null) {
+                                insertOBDData(data)
+                            } else Log.d("KHJ", "data is null! maybe failed in validation")
                             Log.d("KHJ", "$byteList")
                         }) { error ->
                             Log.e("KHJ", "Error in byteArraySubject: $error")
+                            Log.e("KHJ", "Stopping Service!")
+                            disconnect()
+                            stopSelf()
                         }
                     ConnectedBluetoothThread(socket, subject).start()
 
@@ -266,6 +307,9 @@ class BluetoothService : Service() {
                 }, { error ->
                     // Connection failed, handle the error
                     Log.e("KHJ", "Connection failed. error: $error")
+                    disconnect()
+                    sendBluetoothBroadcast("connect", -1)
+                    stopSelf()
                 })
         } else {
             Log.e("KHJ", "in connect() device is null")
@@ -338,11 +382,11 @@ class BluetoothService : Service() {
             .observeOn(io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread())
             .subscribeWith(object : CompletableObserver {
                 override fun onSubscribe(d: Disposable?) {
-                    Log.d("KHJ", "BluetoothService insertOBDData() onSubscribe $d")
+//                    Log.d("KHJ", "BluetoothService insertOBDData() onSubscribe $d")
                 }
 
                 override fun onComplete() {
-                    Log.d("KHJ", "BluetoothService insertOBDData() onComplete ")
+//                    Log.d("KHJ", "BluetoothService insertOBDData() onComplete ")
                 }
 
                 override fun onError(e: Throwable?) {

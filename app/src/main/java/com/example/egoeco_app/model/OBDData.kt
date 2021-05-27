@@ -22,27 +22,17 @@ data class OBDData(
     @ColumnInfo var timeString: String = "",
 ) : BaseEntity(), Serializable {
     @Ignore
+    @ExperimentalUnsignedTypes
     fun validate(): Boolean {
-        Log.d("KHJ","checkSum: $checkSum")
         val sum = sumOf(
-            prefix1,
-            prefix2,
-            engRPM_A,
-            engRPM_B,
-            vehicleSpd,
-            ecoDriveLevel,
-            reserved
+            prefix1, prefix2, engRPM_A, engRPM_B, vehicleSpd, ecoDriveLevel, reserved
         )
-        Log.d("KHJ","sum: $sum")
-        return checkSum == sumOf(
-            prefix1,
-            prefix2,
-            engRPM_A,
-            engRPM_B,
-            vehicleSpd,
-            ecoDriveLevel,
-            reserved
-        )
+        var cs = sum.toUByte()
+        cs = cs and 0xFF.toUByte()
+        cs = (cs.inv() + 1.toUByte()).toUByte()
+//        Log.d("KHJ", "cs: $cs")
+//        Log.d("KHJ", "checkSum: $checkSum")
+        return checkSum == cs.toInt()
     }
 
     @Ignore
@@ -63,14 +53,7 @@ data class OBDData(
 
     @Ignore
     fun getRawByteData() = sumOf(
-        prefix1,
-        prefix2,
-        engRPM_A,
-        engRPM_B,
-        vehicleSpd,
-        ecoDriveLevel,
-        reserved,
-        checkSum
+        prefix1, prefix2, engRPM_A, engRPM_B, vehicleSpd, ecoDriveLevel, reserved, checkSum
     ).toString(16)
 
     @Ignore
