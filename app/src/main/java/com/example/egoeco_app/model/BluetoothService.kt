@@ -71,7 +71,7 @@ class BluetoothService : Service() {
                 if (!serviceState) {
                     serviceState = true
                     notificationChannel = createNotificationChannel()
-                    notification = createNotification()
+                    notification = createNotification("블루투스 스캔중..")
                     startForeground(1, notification)
                     startBluetooth()
                 }
@@ -102,12 +102,11 @@ class BluetoothService : Service() {
         return serviceChannel
     }
 
-    private fun createNotification(contentText: String = "연결됐어요옹"): Notification {
+    private fun createNotification(contentText: String = "블루투스 연결중"): Notification {
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("EgoEco Foreground Service")
+            .setContentTitle("EgoEco")
             .setContentText(contentText)
             .setContentIntent(pendingIntent)
-            .setTicker("hello")
             .setSmallIcon(R.drawable.egoeco_app_logo)
             .build()
     }
@@ -129,17 +128,23 @@ class BluetoothService : Service() {
                 when (state) {
                     ConnectionState.CONNECTED -> {
                         Log.d("KHJ", "${device.address} - connected")
+                        notification = createNotification("블루투스 연결됨")
+                        startForeground(1, notification)
                         connectionState.value = 1
                         sendBluetoothBroadcast("connect", 1)
                     }
                     ConnectionState.CONNECTING -> {
                         Log.d("KHJ", "${device.address} - connecting")
+                        notification = createNotification("블루투스 연결중")
+                        startForeground(1, notification)
                         connectionState.value = 0
                         sendBluetoothBroadcast("connect", 0)
                     }
                     ConnectionState.DISCONNECTED -> {
                         Log.d("KHJ", "${device.address} - disconnected")
                         connectionState.value = -1
+                        notification = createNotification("블루투스 연결 끊김")
+                        startForeground(1, notification)
                         sendBluetoothBroadcast("connect", -1)
                         disconnect()
                         stopSelf()
