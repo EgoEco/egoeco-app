@@ -1,19 +1,17 @@
 package com.example.egoeco_app.view
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.example.egoeco_app.R
 import com.example.egoeco_app.databinding.FragmentMyMenuBinding
 import com.example.egoeco_app.viewmodel.MainViewModel
-import com.example.egoeco_app.viewmodel.MyMenuViewModel
-import com.jakewharton.rxbinding4.view.clicks
 import com.trello.rxlifecycle4.components.support.RxFragment
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MyMenuFragment : RxFragment() {
@@ -32,8 +30,23 @@ class MyMenuFragment : RxFragment() {
         binding.apply {
             viewModel = this@MyMenuFragment.viewModel
             lifecycleOwner = this@MyMenuFragment
+            vehicleInfoButton.setOnClickListener {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://egoeco.netlify.app/analysis"))
+                startActivity(browserIntent)
+            }
+            pointShoppingMallButton.setOnClickListener {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://egoeco.netlify.app/shop"))
+                startActivity(browserIntent)
+            }
+            publicDataButton.setOnClickListener {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://egoeco.netlify.app/news"))
+                startActivity(browserIntent)
+            }
+            pointCheckButton.setOnClickListener {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://egoeco.netlify.app/login"))
+                startActivity(browserIntent)
+            }
         }
-        binding.button2.clicks()
         return binding.root
     }
 }

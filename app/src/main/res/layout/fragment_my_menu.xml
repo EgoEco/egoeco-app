@@ -58,6 +58,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -112,28 +113,28 @@
             app:layout_constraintTop_toTopOf="@+id/guideline6">
 
             <ImageButton
-                android:id="@+id/imageButton7"
+                android:id="@+id/vehicleInfoButton"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_baseline_directions_car_24" />
 
             <ImageButton
-                android:id="@+id/imageButton4"
+                android:id="@+id/pointShoppingMallButton"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_baseline_add_shopping_cart_24" />
 
             <ImageButton
-                android:id="@+id/imageButton6"
+                android:id="@+id/pointCheckButton"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_baseline_attach_money_24" />
 
             <ImageButton
-                android:id="@+id/imageButton5"
+                android:id="@+id/publicDataButton"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_weight="1"
@@ -143,13 +144,50 @@
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_baseline_directions_car_24"
-            android:text="차량 정보"
+            android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"
+            android:text="차량정보"
             app:cornerRadius="15dp"
-            tools:layout_editor_absoluteX="86dp"
-            tools:layout_editor_absoluteY="405dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"
+            android:text="포인트 확인"
+            app:cornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button6" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"
+            android:text="포인트 쇼핑몰"
+            app:cornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_baseline_arrow_forward_ios_24"
+            android:text="공공데이터"
+            app:cornerRadius="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
