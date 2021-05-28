@@ -56,11 +56,11 @@ class DataVisualizationFragment : RxFragment() {
 //                Log.d("KHJ", "entryList: $entryList")
                 val dataset = LineDataSet(entryList.sortedBy { entry -> entry.x }, "RPM").apply {
 //                    colors = ColorTemplate.COLORFUL_COLORS.toList()
-                    colors = colorList
+//                    colors = colorList
                     setDrawFilled(true)
                     lineWidth = 2f
-                    setCircleColor(Color.WHITE)
-                    circleHoleColor = Color.BLACK
+                    circleColors = colorList
+                    circleHoleColor = Color.WHITE
                 }
                 binding.apply {
                     chart.data = LineData(dataset)
