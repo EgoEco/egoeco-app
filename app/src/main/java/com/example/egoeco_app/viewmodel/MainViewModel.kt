@@ -12,10 +12,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.egoeco_app.model.BluetoothBroadcastReceiver
-import com.example.egoeco_app.model.BluetoothService
-import com.example.egoeco_app.model.DataRepository
-import com.example.egoeco_app.model.OBDData
+import com.example.egoeco_app.model.*
 import com.example.egoeco_app.view.MainActivity
 import com.github.zakaprov.rxbluetoothadapter.RxBluetoothAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,11 +29,12 @@ class MainViewModel @Inject internal constructor(
     private val dataRepository: DataRepository
 ) : AndroidViewModel(application) {
     val obdDataList = MutableLiveData<List<OBDData>>()
+    val bluetoothState = MutableLiveData<Pair<BluetoothState, Int>>(Pair(BluetoothState.SCAN, -1))
     val scanState = MutableLiveData<Int>(-1)
     val pairState = MutableLiveData<Int>(-1)
     val connectState = MutableLiveData<Int>(-1)
 
-    lateinit var bluetoothBroadcastReceiver: BluetoothBroadcastReceiver
+    private lateinit var bluetoothBroadcastReceiver: BluetoothBroadcastReceiver
 
 
     companion object {
@@ -48,7 +46,7 @@ class MainViewModel @Inject internal constructor(
     }
 
     fun startService() {
-        Log.d("KHJ", "ViewModel startService")
+//        Log.d("KHJ", "ViewModel startService")
         val serviceIntent = Intent(getApplication(), BluetoothService::class.java)
         serviceIntent.action = BluetoothService.ACTION_START
         getApplication<Application>().startForegroundService(serviceIntent)
@@ -66,6 +64,11 @@ class MainViewModel @Inject internal constructor(
             override fun onConnectStateChanged(state: Int) {
                 connectState.value = state
             }
+
+            override fun onBluetoothStateChanged(pair: Pair<BluetoothState, Int>) {
+                bluetoothState.value = pair
+                Log.d("KHJ","bluetoothState.value: $pair")
+            }
         }
         )
         val intentFilter = IntentFilter("bluetoothServiceIntent")
@@ -79,6 +82,10 @@ class MainViewModel @Inject internal constructor(
         getApplication<Application>().stopService(serviceIntent)
         LocalBroadcastManager.getInstance(getApplication())
             .unregisterReceiver(bluetoothBroadcastReceiver)
+        scanState.value = -1
+        pairState.value = -1
+        connectState.value = -1
+        bluetoothState.value = Pair(BluetoothState.CONNECT,-1) // Service가 너무 빨리 죽어서 여기서 value
     }
 
     fun insertOBDData(data: OBDData) {

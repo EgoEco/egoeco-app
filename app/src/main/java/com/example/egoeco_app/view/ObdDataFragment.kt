@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.egoeco_app.R
 import com.example.egoeco_app.adapter.OBDListAdapter
 import com.example.egoeco_app.databinding.FragmentObdDataBinding
+import com.example.egoeco_app.model.BluetoothState
 import com.example.egoeco_app.model.OBDData
 import com.example.egoeco_app.viewmodel.MainViewModel
 import com.example.egoeco_app.viewmodel.ObdDataViewModel
@@ -48,6 +50,9 @@ class ObdDataFragment : RxFragment() {
     private val viewModel: MainViewModel by activityViewModels()
     private val adapter: OBDListAdapter by lazy { OBDListAdapter() }
     private var commState = false
+    private var lastScanState = -1
+    private var lastPairState = -1
+    private var lastConnectState = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -62,15 +67,14 @@ class ObdDataFragment : RxFragment() {
             lifecycleOwner = viewLifecycleOwner
             obdRecyclerView.adapter = adapter
             obdRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            bluetotohProgressBar.visibility = View.GONE
             startButton.setOnClickListener {
                 if (checkLocationPermission()) {
                     when (commState) {
                         true -> {
-                            toast("stop Service")
                             stopService()
                         }
                         else -> {
-                            toast("start Service")
                             startService()
                         }
                     }
@@ -86,7 +90,7 @@ class ObdDataFragment : RxFragment() {
                 insertRandomData()
             }
             bluetoothDataRemoveButton.setOnClickListener {
-                viewModel.deleteAllOBDData()
+                deleteAllOBDData()
             }
         }
 
@@ -101,7 +105,6 @@ class ObdDataFragment : RxFragment() {
         }
 */
 
-
         viewModel.obdDataList.observe(viewLifecycleOwner) {
             Log.d("KHJ", "obdDataList.observe, task: $it")
             adapter.submitList(it)
@@ -113,89 +116,78 @@ class ObdDataFragment : RxFragment() {
                 dialog.show(childFragmentManager, "ObdDataDetailFragment")
             }
         })
-        var lastScanState = -1
-        var lastPairState = -1
-        var lastConnectState = -1
-        viewModel.scanState.observe(viewLifecycleOwner) { state ->
-            if (lastScanState == state) return@observe
-            when (state) {
-                -1 -> {
-                    commState = false
-                    binding.startButton.isEnabled = true
-                    binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_24)
-                    toast("Scanning Failed.")
-                }
-                0 -> {
-                    binding.startButton.isEnabled = false
-                    if (lastPairState != 1) {
-                        binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_searching_24)
-                        commState = true
-                        toast("Scanning...")
+
+//        lastScanState = viewModel.scanState.value!!
+//        lastPairState = viewModel.pairState.value!!
+//        lastConnectState = viewModel.connectState.value!
+
+        viewModel.bluetoothState.observe(viewLifecycleOwner) { (action, state) ->
+            when (action) {
+                BluetoothState.SCAN -> {
+                    if (lastScanState == state) return@observe
+                    when (state) {
+                        -1 -> {
+                            stopService()
+                            toast("Scanning Failed.")
+                        }
+                        0 -> {
+                            toast("Scanning..")
+                            inService(BluetoothState.SCAN)
+                        }
+                        1 -> {
+                            toast("Scanning Completed!")
+                            inService(BluetoothState.SCAN)
+                        }
                     }
+                    lastScanState = state
                 }
-                1 -> {
-//                    binding.startButton.isEnabled = false
-                    if (lastConnectState != -1) {
-                        commState = true
+                BluetoothState.PAIR -> {
+                    if (lastPairState == state) return@observe
+                    when (state) {
+                        -1 -> {
+                            stopService()
+                            toast("Pairing Failed.")
+                        }
+                        1 -> {
+                            toast("Pairing Completed!")
+                            inService(BluetoothState.PAIR)
+                            binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_connected_24)
+                        }
                     }
-                    toast("Scanning Completed!")
+                    lastPairState = state
+                }
+                BluetoothState.CONNECT -> {
+                    if (lastConnectState == state) {
+                        if (state == -1) outOfService()
+                        return@observe
+                    }
+                    when (state) {
+                        -1 -> {
+                            stopService()
+                            toast("Connecting Failed.")
+                        }
+                        0 -> {
+                            toast("Connecting..")
+                            inService(BluetoothState.CONNECT)
+                            binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_drive_24)
+                        }
+                        1 -> {
+                            toast("Connecting Established!")
+                            commState = true
+                            inService(BluetoothState.CONNECT)
+                            binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_disabled_24)
+                            binding.startButton.isEnabled = true
+                            binding.bluetotohProgressBar.visibility = View.GONE
+                        }
+                    }
+                    lastConnectState = state
                 }
             }
-            lastScanState = state
         }
-        viewModel.pairState.observe(viewLifecycleOwner) { state ->
-            if (lastPairState == state) return@observe
-            when (state) {
-                -1 -> {
-                    commState = false
-                    binding.startButton.isEnabled = true
-                    binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_24)
-                    toast("Paring Failed.")
-                }
-                0 -> {
-                    binding.startButton.isEnabled = false
-                    commState = true
-                    toast("Pairing...")
-                }
-                1 -> {
-//                    binding.startButton.isEnabled = false
-                    binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_connected_24)
-                    commState = true
-                    toast("Pairing Completed!")
-                }
-            }
-            lastPairState = state
-        }
-        viewModel.connectState.observe(viewLifecycleOwner) { state ->
-            if (lastConnectState == state) return@observe
-            when (state) {
-                -1 -> {
-                    commState = false
-                    binding.startButton.isEnabled = true
-                    binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_24)
-                    toast("Connecting Failed.")
-                }
-                0 -> {
-                    binding.startButton.isEnabled = false
-                    commState = true
-                    binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_drive_24)
-                    toast("Connecting...")
-                }
-                1 -> {
-                    binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_disabled_24)
-                    binding.startButton.isEnabled = true
-                    commState = true
-                    toast("Connection Established!")
-                }
-            }
-            lastConnectState = state
-        }
-
-
-
         return binding.root
     }
 
+    @ExperimentalUnsignedTypes
     fun insertRandomData() {
         val data = OBDData()
         data.prefix1 = "0x55".removePrefix("0x").toInt(16)
@@ -276,14 +268,47 @@ class ObdDataFragment : RxFragment() {
         }
     }
 
+    private fun deleteAllOBDData() {
+        viewModel.deleteAllOBDData()
+    }
+
     private fun startService() {
+//        toast("startService")
         viewModel.startService()
-        commState = true
+        inService(BluetoothState.SCAN)
     }
 
     private fun stopService() {
+//        toast("stopService")
         viewModel.stopService()
-        binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_24)
+        outOfService()
+    }
+
+    private fun inService(state: BluetoothState) {
+        commState = true
+        when (state) {
+            BluetoothState.SCAN -> {
+                binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_searching_24)
+                binding.bluetotohProgressBar.visibility = View.VISIBLE
+                binding.startButton.isEnabled = false
+            }
+            BluetoothState.PAIR -> {
+                binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_connected_24)
+                binding.bluetotohProgressBar.visibility = View.VISIBLE
+                binding.startButton.isEnabled = false
+            }
+            BluetoothState.CONNECT -> {
+                binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_drive_24)
+                binding.bluetotohProgressBar.visibility = View.VISIBLE
+                binding.startButton.isEnabled = false
+            }
+        }
+    }
+
+    private fun outOfService() {
         commState = false
+        binding.startButton.isEnabled = true
+        binding.bluetotohProgressBar.visibility = View.GONE
+        binding.startButton.setImageResource(R.drawable.ic_baseline_bluetooth_24)
     }
 }

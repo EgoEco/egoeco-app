@@ -8,10 +8,14 @@ import android.util.Log
 class BluetoothBroadcastReceiver : BroadcastReceiver() {
     lateinit var listener: BluetoothBroadcastReceiverListener
 
+    companion object {
+    }
+
     interface BluetoothBroadcastReceiverListener {
         fun onScanStateChanged(state: Int)
         fun onPairStateChanged(state: Int)
         fun onConnectStateChanged(state: Int)
+        fun onBluetoothStateChanged(pair: Pair<BluetoothState, Int>)
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -22,15 +26,18 @@ class BluetoothBroadcastReceiver : BroadcastReceiver() {
             val connectState = intent.getIntExtra("connect", -2)
             if (scanState != -2) {
                 listener.onScanStateChanged(scanState)
-                Log.d("KHJ","scanState: $scanState")
+                listener.onBluetoothStateChanged(Pair(BluetoothState.SCAN, scanState))
+                Log.d("KHJ", "scanState: $scanState")
             }
             if (pairState != -2) {
                 listener.onPairStateChanged(pairState)
-                Log.d("KHJ","pairState: $pairState")
+                listener.onBluetoothStateChanged(Pair(BluetoothState.PAIR, pairState))
+                Log.d("KHJ", "pairState: $pairState")
             }
             if (connectState != -2) {
                 listener.onConnectStateChanged(connectState)
-                Log.d("KHJ","connectState: $connectState")
+                listener.onBluetoothStateChanged(Pair(BluetoothState.CONNECT, connectState))
+                Log.d("KHJ", "connectState: $connectState")
             }
         }
     }

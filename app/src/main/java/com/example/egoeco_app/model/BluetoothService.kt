@@ -16,8 +16,8 @@ import com.github.zakaprov.rxbluetoothadapter.ConnectionState
 import com.github.zakaprov.rxbluetoothadapter.RxBluetoothAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxjava3.core.CompletableObserver
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
@@ -34,6 +34,9 @@ class BluetoothService : Service() {
     private lateinit var notificationChannel: NotificationChannel
     private lateinit var notification: Notification
     var serviceState = false
+
+    val mCompositeDisposable = CompositeDisposable()
+
 
     val connectionState = MutableLiveData<Int>(-1)
     val scanningState = MutableLiveData<Int>(-1)
@@ -84,7 +87,9 @@ class BluetoothService : Service() {
     override fun onDestroy() {
         Log.d("KHJ", "BluetoothService onDestroy()")
         serviceState = false
+        sendBluetoothBroadcast("connect", -1)
         disconnect()
+        mCompositeDisposable.dispose()
         super.onDestroy()
     }
 
@@ -145,6 +150,7 @@ class BluetoothService : Service() {
                         connectionState.value = -1
                         notification = createNotification("블루투스 연결 끊김")
                         startForeground(1, notification)
+                        Log.d("KHJ", "sendingBluetoothBroadcast connect: -1")
                         sendBluetoothBroadcast("connect", -1)
                         disconnect()
                         stopSelf()
@@ -157,6 +163,7 @@ class BluetoothService : Service() {
                 connectionState.value = -1
                 stopSelf()
             }
+        mCompositeDisposable.add(connectionDisposable)
 
         val scanningDisposable = adapter.scanStateStream
             .observeOn(AndroidSchedulers.mainThread())
@@ -171,6 +178,7 @@ class BluetoothService : Service() {
             }, {
                 Log.d("KHJ", "scanStateStream onComplete()")
             })
+        mCompositeDisposable.add(scanningDisposable)
     }
 
     private fun sendBluetoothBroadcast(name: String, value: Int) {
@@ -182,7 +190,7 @@ class BluetoothService : Service() {
 
     private fun scan() {
         Log.d("KHJ", "Start Scanning Sequence")
-        val disposable = adapter.startDeviceScan()
+        val scanningDisposable = adapter.startDeviceScan()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ device ->
@@ -212,6 +220,7 @@ class BluetoothService : Service() {
                 pair()
                 // Scan complete
             })
+        mCompositeDisposable.add(scanningDisposable)
     }
 
     private fun pair() {
@@ -221,7 +230,7 @@ class BluetoothService : Service() {
         val device = mDevice
         if (device != null) {
             Log.d("KHJ", "pairing with HC-06...")
-            val disposable = adapter.pairDevice(device)
+            val pairingDisposable = adapter.pairDevice(device)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
@@ -238,6 +247,7 @@ class BluetoothService : Service() {
                     disconnect()
                     stopSelf()
                 })
+            mCompositeDisposable.add(pairingDisposable)
         } else {
             Log.e("KHJ", "in pair() device is null")
             sendBluetoothBroadcast("pair", -1)
@@ -291,8 +301,8 @@ class BluetoothService : Service() {
                             disconnect()
                             stopSelf()
                         }
+                    mCompositeDisposable.add(subjectDisposable)
                     ConnectedBluetoothThread(socket, subject).start()
-
 /*
                     // Studying how to observe socket's InputStream in real-time
                     PublishSubject.fromArray(socket.inputStream)
@@ -316,6 +326,7 @@ class BluetoothService : Service() {
                     sendBluetoothBroadcast("connect", -1)
                     stopSelf()
                 })
+            mCompositeDisposable.add(connectDisposable)
         } else {
             Log.e("KHJ", "in connect() device is null")
         }

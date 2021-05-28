@@ -108,22 +108,22 @@
         android:id="@+id/bluetoothRandomButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/startButton"
+        app:layout_constraintStart_toEndOf="@+id/bluetoothDataRemoveButton"
         app:srcCompat="@drawable/ic_baseline_shuffle_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/bluetoothDataRemoveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/obdRecyclerView"
-        app:layout_constraintEnd_toStartOf="@+id/startButton"
-        app:layout_constraintStart_toEndOf="@+id/bluetoothRandomButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
