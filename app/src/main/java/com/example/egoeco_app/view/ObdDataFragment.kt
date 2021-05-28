@@ -122,6 +122,7 @@ class ObdDataFragment : RxFragment() {
 //        lastConnectState = viewModel.connectState.value!
 
         viewModel.bluetoothState.observe(viewLifecycleOwner) { (action, state) ->
+            Log.d("KHJ", "action: $action, state: $state")
             when (action) {
                 BluetoothState.SCAN -> {
                     if (lastScanState == state) return@observe
@@ -159,6 +160,7 @@ class ObdDataFragment : RxFragment() {
                 BluetoothState.CONNECT -> {
                     if (lastConnectState == state) {
                         if (state == -1) outOfService()
+                        toast("Not Connected")
                         return@observe
                     }
                     when (state) {
@@ -189,17 +191,18 @@ class ObdDataFragment : RxFragment() {
 
     @ExperimentalUnsignedTypes
     fun insertRandomData() {
-        val data = OBDData()
-        data.prefix1 = "0x55".removePrefix("0x").toInt(16)
-        data.prefix2 = "0x01".removePrefix("0x").toInt(16)
-        data.engRPM_A = "0x05".removePrefix("0x").toInt(16) + Random.nextInt(50)
-        data.engRPM_B = "0x05".removePrefix("0x").toInt(16) + Random.nextInt(50)
-        data.vehicleSpd = "0x10".removePrefix("0x").toInt(16) + Random.nextInt(35)
-        data.ecoDriveLevel = "0x01".removePrefix("0x").toInt(16) + Random.nextInt(5)
-        data.timeStamp = System.currentTimeMillis()
-        data.validate()
-        data.initRPM()
-        data.initTimeString()
+        val data = OBDData().apply {
+            prefix1 = "0x55".removePrefix("0x").toInt(16)
+            prefix2 = "0x01".removePrefix("0x").toInt(16)
+            engRPM_A = "0x05".removePrefix("0x").toInt(16) + Random.nextInt(50)
+            engRPM_B = "0x05".removePrefix("0x").toInt(16) + Random.nextInt(50)
+            vehicleSpd = "0x10".removePrefix("0x").toInt(16) + Random.nextInt(35)
+            reserved = 0
+            ecoDriveLevel = "0x01".removePrefix("0x").toInt(16) + Random.nextInt(5)
+            timeStamp = System.currentTimeMillis()
+            initialize()
+            validate()
+        }
         viewModel.insertOBDData(data)
     }
 

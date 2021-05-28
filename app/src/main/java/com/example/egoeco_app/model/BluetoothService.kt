@@ -257,19 +257,19 @@ class BluetoothService : Service() {
 
     @ExperimentalUnsignedTypes
     fun makeOBDDataFromByteArray(byteList: List<UByte>): OBDData? {
-        return OBDData().apply {
+        val obdData = OBDData().apply {
             prefix1 = byteList[0].toInt()
             prefix2 = byteList[1].toInt()
             engRPM_A = byteList[2].toInt()
             engRPM_B = byteList[3].toInt()
             vehicleSpd = byteList[4].toInt()
             ecoDriveLevel = byteList[5].toInt()
+            reserved = byteList[6].toInt()
             checkSum = byteList[7].toInt()
             timeStamp = System.currentTimeMillis()
-            if (!validate()) return null
-            initRPM()
-            initTimeString()
+            initialize()
         }
+        return if (obdData.validate()) obdData else null
     }
 
 
@@ -291,10 +291,9 @@ class BluetoothService : Service() {
                         .subscribe({ byteArray ->
                             val byteList = byteArray.take(8).map { it.toUByte() }
                             val data = makeOBDDataFromByteArray(byteList)
-                            if (data != null) {
-                                insertOBDData(data)
-                            } else Log.d("KHJ", "data is null! maybe failed in validation")
                             Log.d("KHJ", "$byteList")
+                            if (data != null) insertOBDData(data)
+                            else Log.d("KHJ", "data is null! maybe failed in validation")
                         }) { error ->
                             Log.e("KHJ", "Error in byteArraySubject: $error")
                             Log.e("KHJ", "Stopping Service!")

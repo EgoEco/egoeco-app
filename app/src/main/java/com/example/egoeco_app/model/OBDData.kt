@@ -15,7 +15,7 @@ data class OBDData(
     @ColumnInfo var engRPM_B: Int = 0,
     @ColumnInfo var vehicleSpd: Int = 0,
     @ColumnInfo var ecoDriveLevel: Int = 0,
-    @ColumnInfo val reserved: Int = 0,
+    @ColumnInfo var reserved: Int = 0,
     @ColumnInfo var checkSum: Int = 0,
     @ColumnInfo var rpm: Int = 0,
     @ColumnInfo var timeStamp: Long = 0,
@@ -32,7 +32,14 @@ data class OBDData(
         cs = (cs.inv() + 1.toUByte()).toUByte()
 //        Log.d("KHJ", "cs: $cs")
 //        Log.d("KHJ", "checkSum: $checkSum")
+        if (prefix1 != 85 || prefix2 != 1 || reserved != 0) return false
         return checkSum == cs.toInt()
+    }
+
+    @Ignore
+    fun initialize() {
+        initTimeString()
+        initRPM()
     }
 
     @Ignore

@@ -68,6 +68,10 @@ class MainViewModel @Inject internal constructor(
             override fun onBluetoothStateChanged(pair: Pair<BluetoothState, Int>) {
                 bluetoothState.value = pair
                 Log.d("KHJ","bluetoothState.value: $pair")
+                if (pair.second == -1) { // failed in scanning or pairing or connecting
+                    Log.d("KHJ","pair.second == -1. stopService()")
+                    stopService()
+                }
             }
         }
         )
