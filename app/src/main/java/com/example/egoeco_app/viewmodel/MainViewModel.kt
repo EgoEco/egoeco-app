@@ -138,6 +138,25 @@ class MainViewModel @Inject internal constructor(
             })
     }
 
+    fun deleteAllOBDData() {
+        dataRepository.getOBDDataRepository().deleteAll()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(object : CompletableObserver {
+                override fun onSubscribe(d: Disposable?) {
+                    Log.d("KHJ", "deleteOBDData() onSubscribe $d")
+                }
+
+                override fun onComplete() {
+                    Log.d("KHJ", "deleteOBDData() onComplete ")
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.d("KHJ", "deleteOBDData() onError $e")
+                }
+            })
+    }
+
     fun deleteOBDDataById(id: Long) {
         dataRepository.getOBDDataRepository().deleteOBDDataById(id)
             .subscribeOn(Schedulers.io())

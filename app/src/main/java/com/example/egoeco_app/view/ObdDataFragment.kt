@@ -82,6 +82,12 @@ class ObdDataFragment : RxFragment() {
                     }
                 }
             }
+            bluetoothRandomButton.setOnClickListener {
+                insertRandomData()
+            }
+            bluetoothDataRemoveButton.setOnClickListener {
+                viewModel.deleteAllOBDData()
+            }
         }
 
 /*

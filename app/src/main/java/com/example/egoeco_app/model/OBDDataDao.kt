@@ -15,4 +15,7 @@ interface OBDDataDao: BaseDao<OBDData> {
 
     @Query("delete from obd_data where id=:id")
     fun deleteOBDDataById(id: Long): Completable
+
+    @Query("delete from obd_data")
+    fun deleteAll(): Completable
 }

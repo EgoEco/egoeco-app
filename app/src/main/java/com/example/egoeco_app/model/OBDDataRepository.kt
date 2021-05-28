@@ -19,4 +19,5 @@ class OBDDataRepository @Inject internal constructor(
     fun updateOBDData(data: OBDData) = obdDataDao.update(data)
     fun deleteOBDData(data: OBDData) = obdDataDao.delete(data)
     fun deleteOBDDataById(id: Long) = obdDataDao.deleteOBDDataById(id)
+    fun deleteAll() = obdDataDao.deleteAll()
 }
