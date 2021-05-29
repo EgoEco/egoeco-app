@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +26,8 @@ import com.example.egoeco_app.adapter.OBDListAdapter
 import com.example.egoeco_app.databinding.FragmentObdDataBinding
 import com.example.egoeco_app.model.BluetoothState
 import com.example.egoeco_app.model.OBDData
+import com.example.egoeco_app.utils.DevTool.logD
+import com.example.egoeco_app.utils.DevTool.logE
 import com.example.egoeco_app.viewmodel.MainViewModel
 import com.example.egoeco_app.viewmodel.ObdDataViewModel
 import com.trello.rxlifecycle4.android.ActivityEvent
@@ -106,7 +107,7 @@ class ObdDataFragment : RxFragment() {
 */
 
         viewModel.obdDataList.observe(viewLifecycleOwner) {
-            Log.d("KHJ", "obdDataList.observe, task: $it")
+            logD("obdDataList.observe, task: $it")
             adapter.submitList(it)
         }
         adapter.setOBDListAdapterListener(object : OBDListAdapter.OBDListAdapterListener {
@@ -122,7 +123,7 @@ class ObdDataFragment : RxFragment() {
 //        lastConnectState = viewModel.connectState.value!
 
         viewModel.bluetoothState.observe(viewLifecycleOwner) { (action, state) ->
-            Log.d("KHJ", "action: $action, state: $state")
+            logD("action: $action, state: $state")
             when (action) {
                 BluetoothState.SCAN -> {
                     if (lastScanState == state) return@observe
@@ -211,7 +212,7 @@ class ObdDataFragment : RxFragment() {
             requireActivity(),
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
-        Log.d("KHJ", "coarseLocationPermission: $coarseLocationPermission")
+        logD("coarseLocationPermission: $coarseLocationPermission")
         return coarseLocationPermission == PackageManager.PERMISSION_GRANTED
     }
 
@@ -239,7 +240,7 @@ class ObdDataFragment : RxFragment() {
                             .setData(Uri.parse("package:" + requireContext().packageName));
                     startActivity(intent);
                 } catch (e: ActivityNotFoundException) {
-                    Log.e("KHJ", "error in permission activity $e")
+                    logE("error in permission activity $e")
                     e.printStackTrace();
                     val intent =
                         Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);

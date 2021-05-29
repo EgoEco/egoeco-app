@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.egoeco_app.model.DataRepository
 import com.example.egoeco_app.model.OBDData
+import com.example.egoeco_app.utils.DevTool.logD
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -21,7 +22,7 @@ class DataVisualizationViewModel @Inject internal constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : Observer<List<OBDData>> {
                 override fun onSubscribe(d: Disposable?) {
-                    Log.d("KHJ", "getAllOBDData() onSubscribe $d")
+                    logD( "getAllOBDData() onSubscribe $d")
                 }
 
                 override fun onNext(t: List<OBDData>?) {
@@ -31,11 +32,11 @@ class DataVisualizationViewModel @Inject internal constructor(
                 }
 
                 override fun onError(e: Throwable?) {
-                    Log.d("KHJ", "getAllOBDData() onError $e")
+                    logD( "getAllOBDData() onError $e")
                 }
 
                 override fun onComplete() {
-                    Log.d("KHJ", "getAllOBDData() onComplete")
+                    logD( "getAllOBDData() onComplete")
                 }
             })
     }

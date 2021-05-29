@@ -30,8 +30,8 @@ data class OBDData(
         var cs = sum.toUByte()
         cs = cs and 0xFF.toUByte()
         cs = (cs.inv() + 1.toUByte()).toUByte()
-//        Log.d("KHJ", "cs: $cs")
-//        Log.d("KHJ", "checkSum: $checkSum")
+//        logD("cs: $cs")
+//        logD("checkSum: $checkSum")
         if (prefix1 != 85 || prefix2 != 1 || reserved != 0) return false
         return checkSum == cs.toInt()
     }

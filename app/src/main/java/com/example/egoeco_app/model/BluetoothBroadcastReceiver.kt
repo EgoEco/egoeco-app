@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.example.egoeco_app.utils.DevTool.logD
 
 class BluetoothBroadcastReceiver : BroadcastReceiver() {
     lateinit var listener: BluetoothBroadcastReceiverListener
@@ -19,7 +20,7 @@ class BluetoothBroadcastReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        Log.d("KHJ", "in BluetoothBroadcastReceiver")
+        logD( "in BluetoothBroadcastReceiver")
         intent?.let {
             val scanState = intent.getIntExtra("scan", -2)
             val pairState = intent.getIntExtra("pair", -2)
@@ -27,17 +28,17 @@ class BluetoothBroadcastReceiver : BroadcastReceiver() {
             if (scanState != -2) {
                 listener.onScanStateChanged(scanState)
                 listener.onBluetoothStateChanged(Pair(BluetoothState.SCAN, scanState))
-                Log.d("KHJ", "scanState: $scanState")
+                logD( "scanState: $scanState")
             }
             if (pairState != -2) {
                 listener.onPairStateChanged(pairState)
                 listener.onBluetoothStateChanged(Pair(BluetoothState.PAIR, pairState))
-                Log.d("KHJ", "pairState: $pairState")
+                logD( "pairState: $pairState")
             }
             if (connectState != -2) {
                 listener.onConnectStateChanged(connectState)
                 listener.onBluetoothStateChanged(Pair(BluetoothState.CONNECT, connectState))
-                Log.d("KHJ", "connectState: $connectState")
+                logD( "connectState: $connectState")
             }
         }
     }

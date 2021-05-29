@@ -53,7 +53,7 @@ class DataVisualizationFragment : RxFragment() {
                 }
             }
             if (entryList.isNotEmpty()) {
-//                Log.d("KHJ", "entryList: $entryList")
+//                logD( "entryList: $entryList")
                 val dataset = LineDataSet(entryList.sortedBy { entry -> entry.x }, "RPM").apply {
                     setDrawFilled(true)
                     lineWidth = 2f

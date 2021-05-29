@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.egoeco_app.model.DataRepository
 import com.example.egoeco_app.model.OBDData
+import com.example.egoeco_app.utils.DevTool.logD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
@@ -25,22 +26,22 @@ class ObdDataDetailViewModel @Inject internal constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : Observer<OBDData> {
                 override fun onSubscribe(d: Disposable?) {
-                    Log.d("KHJ", "getOBDDataById() onSubscribe $d")
+                    logD( "getOBDDataById() onSubscribe $d")
                 }
 
                 override fun onNext(t: OBDData?) {
-                    Log.d("KHJ", "getOBDDataById() onNext $t")
+                    logD( "getOBDDataById() onNext $t")
                     t?.let {
                         data.value = it
                     }
                 }
 
                 override fun onError(e: Throwable?) {
-                    Log.d("KHJ", "getOBDDataById() onError $e")
+                    logD( "getOBDDataById() onError $e")
                 }
 
                 override fun onComplete() {
-                    Log.d("KHJ", "getOBDDataById() onComplete")
+                    logD( "getOBDDataById() onComplete")
                 }
             })
     }

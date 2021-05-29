@@ -22,7 +22,7 @@ Eco
 - [X] Prepare MVVM Design with AAC ViewModel (done at 21.05.20)
 - [X] Complete Data Model (done at 21.05.20)
 - [X] Dependency Injection (done at 21.05.20)
-- [ ] Implement Login with Retrofit (REST API)
+- [ ] Implement Login with Retrofit -REST API
 - [ ] Complete Login Activity
 - [ ] Complete MyMenu Fragment
 - [X] Complete OBD Data Fragment (done at 21.05.22)
