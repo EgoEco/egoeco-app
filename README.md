@@ -11,6 +11,8 @@ EgoEco App 🏃‍♂
 Eco
 
 ## How it works
+![](.README_images/demo_image/app_demo.gif)
+
 ### Specification
 - min SDK : 23
 - Target SDK : 30  
