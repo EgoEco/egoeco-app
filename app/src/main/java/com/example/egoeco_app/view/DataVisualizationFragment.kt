@@ -49,7 +49,7 @@ class DataVisualizationFragment : RxFragment() {
                 when (data.ecoDriveLevel) {
                     in 1..2 -> Color.RED
                     in 3..5 -> Color.GREEN
-                    else -> Color.YELLOW
+                    else -> Color.GRAY
                 }
             }
             if (entryList.isNotEmpty()) {
