@@ -14,7 +14,7 @@ Eco
 ### Specification
 - min SDK : 23
 - Target SDK : 30  
-- Implement : RxAndroid, RxJava, RxLifeCycle, Glide, Navigation, Room
+- Implement : RxAndroid, RxJava, RxLifeCycle, Glide, Navigation, Room, Bluetooth Adapter, Retrofit
 - Keep on : AAC ViewModel, MVVM Pattern, Single Activity
 
 ## Primary To-do List 
