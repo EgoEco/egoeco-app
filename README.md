@@ -8,7 +8,13 @@ EgoEco App 🏃‍♂
 
 ## What is this?
 
-Eco
+EgoEco App is an app that helps you develop economical driving habits by measuring vehicle driving information. 
+Points earned by the ecosystem obtained through vehicle analysis data are classified and stored according to the user's information, and various benefits can be obtained with points.
+
+EgoEco App is a proven environmental protection policy on city buses. 
+However, this does not apply to personal vehicles. 
+Therefore, this app will contribute to reducing greenhouse gases by applying eco-system to private cars. 
+This app can reduce greenhouse gas emissions by 7%
 
 ## How it works
 ![](.README_images/demo_image/app_demo.gif)
