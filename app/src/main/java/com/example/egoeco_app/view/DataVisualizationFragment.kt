@@ -91,7 +91,7 @@ class DataVisualizationFragment : RxFragment() {
         }
         binding.chart.apply {
             animateY(1000)
-            description.text = "Desc"
+            description.text = "RPM / 0.5Sec"
             minimumWidth = 60
             axisLeft.apply {
                 textColor = Color.WHITE
