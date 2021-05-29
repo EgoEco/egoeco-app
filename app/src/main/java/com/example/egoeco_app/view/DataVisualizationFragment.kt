@@ -55,8 +55,6 @@ class DataVisualizationFragment : RxFragment() {
             if (entryList.isNotEmpty()) {
 //                Log.d("KHJ", "entryList: $entryList")
                 val dataset = LineDataSet(entryList.sortedBy { entry -> entry.x }, "RPM").apply {
-//                    colors = ColorTemplate.COLORFUL_COLORS.toList()
-//                    colors = colorList
                     setDrawFilled(true)
                     lineWidth = 2f
                     circleColors = colorList
@@ -92,7 +90,7 @@ class DataVisualizationFragment : RxFragment() {
         binding.chart.apply {
             animateY(1000)
             description.text = "RPM / 0.5Sec"
-            minimumWidth = 60
+//            minimumWidth = 60
             axisLeft.apply {
                 textColor = Color.WHITE
                 axisMinimum = 0f
