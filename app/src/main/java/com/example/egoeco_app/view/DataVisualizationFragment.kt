@@ -60,7 +60,10 @@ class DataVisualizationFragment : RxFragment() {
                     setDrawFilled(true)
                     lineWidth = 2f
                     circleColors = colorList
+                    circleRadius = 5f
+                    circleHoleRadius = 2f
                     circleHoleColor = Color.WHITE
+                    valueTextColor = Color.WHITE
                 }
                 binding.apply {
                     chart.data = LineData(dataset)
@@ -73,12 +76,14 @@ class DataVisualizationFragment : RxFragment() {
                     visualEcoLvTextView.text = lastData.ecoDriveLevel.toString()
                     visualEcoLvTextView.setTextColor(
                         when (lastData.ecoDriveLevel) {
-                            1 -> Color.RED
-                            2 -> Color.YELLOW
-                            3 -> Color.GRAY
-                            4 -> Color.BLUE
-                            5 -> Color.GREEN
+                            in 1..2 -> Color.RED
+                            in 3..5 -> Color.GREEN
                             else -> Color.DKGRAY
+//                            1 -> Color.RED
+//                            2 -> Color.YELLOW
+//                            3 -> Color.GRAY
+//                            4 -> Color.BLUE
+//                            5 -> Color.GREEN
                         }
                     )
                 }
@@ -88,8 +93,16 @@ class DataVisualizationFragment : RxFragment() {
             animateY(1000)
             description.text = "Desc"
             minimumWidth = 60
-            axisLeft.textColor = Color.WHITE
-            axisRight.textColor = Color.WHITE
+            axisLeft.apply {
+                textColor = Color.WHITE
+                axisMinimum = 0f
+                axisMaximum = 5000f
+            }
+            axisRight.apply {
+                textColor = Color.WHITE
+                axisMinimum = 0f
+                axisMaximum = 5000f
+            }
             xAxis.textColor = Color.WHITE
             legend.textColor = Color.WHITE
             description.textColor = Color.WHITE
