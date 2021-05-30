@@ -37,14 +37,6 @@ class BluetoothService : Service() {
     private lateinit var notification: Notification
     var serviceState = false
 
-    class Test(val a: Int) {
-        private var greeting = "hi"
-
-        constructor(a: String) : this(a.toInt()) {
-            greeting = "$a~"
-        }
-    }
-
     val mCompositeDisposable = CompositeDisposable()
 
     val connectionState = MutableLiveData<Int>(-1)
