@@ -20,7 +20,7 @@ This app can reduce greenhouse gas emissions by 7%
 ![](.README_images/demo_image/app_demo.gif)
 
 ### Specification
-- min SDK : 23
+- min SDK : 26
 - Target SDK : 30  
 - Implement : RxAndroid, RxJava, RxLifeCycle, Glide, Navigation, Room, Bluetooth Adapter, Retrofit
 - Keep on : AAC ViewModel, MVVM Pattern, Single Activity
