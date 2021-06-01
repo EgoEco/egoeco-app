@@ -14,7 +14,7 @@ Points earned by the ecosystem obtained through vehicle analysis data are classi
 EgoEco App is a proven environmental protection policy on city buses. 
 However, this does not apply to personal vehicles. 
 Therefore, this app will contribute to reducing greenhouse gases by applying eco-system to private cars. 
-This app can reduce greenhouse gas emissions by 7%
+This app can reduce greenhouse gas emissions by 7%.
 
 ## How it works
 ![](.README_images/demo_image/app_demo.gif)
