@@ -20,6 +20,7 @@ class DatabaseModule {
         return AppDatabase.getInstance(context.applicationContext)
     }
 
+    @Singleton
     @Provides
     fun provideOBDDataDao(appDatabase: AppDatabase): OBDDataDao {
         return appDatabase.obdDataDao()
