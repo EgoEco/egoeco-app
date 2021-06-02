@@ -2,8 +2,8 @@ package com.example.egoeco_app.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.egoeco_app.model.room.DataRepository
-import com.example.egoeco_app.model.room.OBDData
+import com.example.egoeco_app.model.repo.DataRepository
+import com.example.egoeco_app.model.entity.OBDData
 import com.example.egoeco_app.utils.DevTool.logD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

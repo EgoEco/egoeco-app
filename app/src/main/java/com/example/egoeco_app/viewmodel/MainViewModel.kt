@@ -9,8 +9,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.egoeco_app.model.bluetooth.BluetoothBroadcastReceiver
 import com.example.egoeco_app.model.bluetooth.BluetoothService
 import com.example.egoeco_app.model.bluetooth.BluetoothState
-import com.example.egoeco_app.model.room.DataRepository
-import com.example.egoeco_app.model.room.OBDData
+import com.example.egoeco_app.model.repo.DataRepository
+import com.example.egoeco_app.model.entity.OBDData
 import com.example.egoeco_app.utils.DevTool.logD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

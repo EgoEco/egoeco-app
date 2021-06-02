@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.egoeco_app.R
 import com.example.egoeco_app.databinding.ObdDataViewholderBinding
-import com.example.egoeco_app.model.room.OBDData
+import com.example.egoeco_app.model.entity.OBDData
 import java.text.SimpleDateFormat
 
 class OBDListAdapter :

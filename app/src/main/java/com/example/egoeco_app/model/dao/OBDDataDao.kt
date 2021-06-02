@@ -1,7 +1,8 @@
-package com.example.egoeco_app.model.room
+package com.example.egoeco_app.model.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import com.example.egoeco_app.model.entity.OBDData
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 

@@ -1,5 +1,7 @@
-package com.example.egoeco_app.model.room
+package com.example.egoeco_app.model.repo
 
+import com.example.egoeco_app.model.dao.UserDataDao
+import com.example.egoeco_app.model.entity.User
 import javax.inject.Inject
 import javax.inject.Singleton
 

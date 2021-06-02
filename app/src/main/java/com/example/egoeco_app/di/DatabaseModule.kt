@@ -1,8 +1,8 @@
 package com.example.egoeco_app.di
 
 import android.content.Context
-import com.example.egoeco_app.model.room.AppDatabase
-import com.example.egoeco_app.model.room.OBDDataDao
+import com.example.egoeco_app.model.AppDatabase
+import com.example.egoeco_app.model.dao.OBDDataDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

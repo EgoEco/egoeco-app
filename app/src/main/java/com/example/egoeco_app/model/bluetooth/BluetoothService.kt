@@ -10,8 +10,8 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.egoeco_app.R
-import com.example.egoeco_app.model.room.DataRepository
-import com.example.egoeco_app.model.room.OBDData
+import com.example.egoeco_app.model.repo.DataRepository
+import com.example.egoeco_app.model.entity.OBDData
 import com.example.egoeco_app.utils.DevTool.logD
 import com.example.egoeco_app.utils.DevTool.logE
 import com.example.egoeco_app.view.MainActivity

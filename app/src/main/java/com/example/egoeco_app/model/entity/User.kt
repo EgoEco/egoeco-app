@@ -1,10 +1,9 @@
-package com.example.egoeco_app.model.room
+package com.example.egoeco_app.model.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import java.io.Serializable
-import java.text.SimpleDateFormat
 
 @Entity(tableName = "user")
 data class User(
