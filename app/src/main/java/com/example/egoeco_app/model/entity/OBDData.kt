@@ -19,7 +19,7 @@ data class OBDData(
     @ColumnInfo var rpm: Int = 0,
     @ColumnInfo var timeStamp: Long = 0,
     @ColumnInfo var timeString: String = "",
-) : BaseEntity(), Serializable {
+) : BaseEntity() {
     @Ignore
     @ExperimentalUnsignedTypes
     fun validate(): Boolean {

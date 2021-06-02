@@ -7,10 +7,12 @@ import androidx.room.RoomDatabase
 import com.example.egoeco_app.model.entity.OBDData
 import com.example.egoeco_app.model.entity.User
 import com.example.egoeco_app.model.dao.OBDDataDao
+import com.example.egoeco_app.model.dao.UserDao
 
 @Database(entities = [OBDData::class, User::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun obdDataDao(): OBDDataDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile

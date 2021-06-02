@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 
 @Dao
-interface UserDataDao: BaseDao<User> {
+interface UserDao: BaseDao<User> {
     @Query("select * from user")
     fun getAll(): Observable<List<User>>
 

@@ -6,11 +6,14 @@ import android.content.IntentFilter
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.egoeco_app.di.RetrofitModule
+import com.example.egoeco_app.model.EgoEcoAPIService
 import com.example.egoeco_app.model.bluetooth.BluetoothBroadcastReceiver
 import com.example.egoeco_app.model.bluetooth.BluetoothService
 import com.example.egoeco_app.model.bluetooth.BluetoothState
 import com.example.egoeco_app.model.repo.DataRepository
 import com.example.egoeco_app.model.entity.OBDData
+import com.example.egoeco_app.model.repo.UserRepository
 import com.example.egoeco_app.utils.DevTool.logD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -18,12 +21,15 @@ import io.reactivex.rxjava3.core.CompletableObserver
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import retrofit2.Retrofit
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject internal constructor(
     application: Application,
-    private val dataRepository: DataRepository
+    private val dataRepository: DataRepository,
+    private val userRepository: UserRepository,
+    private val retrofit: Retrofit,
 ) : AndroidViewModel(application) {
     val obdDataList = MutableLiveData<List<OBDData>>()
     val bluetoothState = MutableLiveData<Pair<BluetoothState, Int>>(Pair(BluetoothState.SCAN, -1))
@@ -86,7 +92,7 @@ class MainViewModel @Inject internal constructor(
         scanState.value = -1
         pairState.value = -1
         connectState.value = -1
-        bluetoothState.value = Pair(BluetoothState.CONNECT,-1) // Service가 너무 빨리 죽어서 여기서 value
+        bluetoothState.value = Pair(BluetoothState.CONNECT, -1) // Service가 너무 빨리 죽어서 여기서 value
     }
 
     fun insertOBDData(data: OBDData) {
@@ -95,15 +101,15 @@ class MainViewModel @Inject internal constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : CompletableObserver {
                 override fun onSubscribe(d: Disposable?) {
-                    logD( "insertOBDData() onSubscribe $d")
+                    logD("insertOBDData() onSubscribe $d")
                 }
 
                 override fun onComplete() {
-                    logD( "insertOBDData() onComplete ")
+                    logD("insertOBDData() onComplete ")
                 }
 
                 override fun onError(e: Throwable?) {
-                    logD( "insertOBDData() onError $e")
+                    logD("insertOBDData() onError $e")
                 }
             })
     }
@@ -114,15 +120,15 @@ class MainViewModel @Inject internal constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : CompletableObserver {
                 override fun onSubscribe(d: Disposable?) {
-                    logD( "updateOBDData() onSubscribe $d")
+                    logD("updateOBDData() onSubscribe $d")
                 }
 
                 override fun onComplete() {
-                    logD( "updateOBDData() onComplete ")
+                    logD("updateOBDData() onComplete ")
                 }
 
                 override fun onError(e: Throwable?) {
-                    logD( "updateOBDData() onError $e")
+                    logD("updateOBDData() onError $e")
                 }
             })
     }
@@ -133,15 +139,15 @@ class MainViewModel @Inject internal constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : CompletableObserver {
                 override fun onSubscribe(d: Disposable?) {
-                    logD( "deleteOBDData() onSubscribe $d")
+                    logD("deleteOBDData() onSubscribe $d")
                 }
 
                 override fun onComplete() {
-                    logD( "deleteOBDData() onComplete ")
+                    logD("deleteOBDData() onComplete ")
                 }
 
                 override fun onError(e: Throwable?) {
-                    logD( "deleteOBDData() onError $e")
+                    logD("deleteOBDData() onError $e")
                 }
             })
     }
@@ -152,15 +158,15 @@ class MainViewModel @Inject internal constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : CompletableObserver {
                 override fun onSubscribe(d: Disposable?) {
-                    logD( "deleteOBDData() onSubscribe $d")
+                    logD("deleteOBDData() onSubscribe $d")
                 }
 
                 override fun onComplete() {
-                    logD( "deleteOBDData() onComplete ")
+                    logD("deleteOBDData() onComplete ")
                 }
 
                 override fun onError(e: Throwable?) {
-                    logD( "deleteOBDData() onError $e")
+                    logD("deleteOBDData() onError $e")
                 }
             })
     }
@@ -171,15 +177,15 @@ class MainViewModel @Inject internal constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : CompletableObserver {
                 override fun onSubscribe(d: Disposable?) {
-                    logD( "deleteOBDDataById() onSubscribe $d")
+                    logD("deleteOBDDataById() onSubscribe $d")
                 }
 
                 override fun onComplete() {
-                    logD( "deleteOBDDataById() onComplete ")
+                    logD("deleteOBDDataById() onComplete ")
                 }
 
                 override fun onError(e: Throwable?) {
-                    logD( "deleteOBDDataById() onError $e")
+                    logD("deleteOBDDataById() onError $e")
                 }
             })
     }
@@ -190,7 +196,7 @@ class MainViewModel @Inject internal constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : Observer<List<OBDData>> {
                 override fun onSubscribe(d: Disposable?) {
-                    logD( "getAllOBDData() onSubscribe $d")
+                    logD("getAllOBDData() onSubscribe $d")
                 }
 
                 override fun onNext(t: List<OBDData>?) {
@@ -200,11 +206,11 @@ class MainViewModel @Inject internal constructor(
                 }
 
                 override fun onError(e: Throwable?) {
-                    logD( "getAllOBDData() onError $e")
+                    logD("getAllOBDData() onError $e")
                 }
 
                 override fun onComplete() {
-                    logD( "getAllOBDData() onComplete")
+                    logD("getAllOBDData() onComplete")
                 }
             })
     }

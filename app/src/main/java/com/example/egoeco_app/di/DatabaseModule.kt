@@ -3,6 +3,7 @@ package com.example.egoeco_app.di
 import android.content.Context
 import com.example.egoeco_app.model.AppDatabase
 import com.example.egoeco_app.model.dao.OBDDataDao
+import com.example.egoeco_app.model.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,5 +25,11 @@ class DatabaseModule {
     @Provides
     fun provideOBDDataDao(appDatabase: AppDatabase): OBDDataDao {
         return appDatabase.obdDataDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserDao(appDatabase: AppDatabase): UserDao {
+        return appDatabase.userDao()
     }
 }

@@ -1,5 +1,6 @@
 package com.example.egoeco_app.di
 
+import com.example.egoeco_app.model.EgoEcoAPIService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -14,13 +15,23 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
+    private const val baseUrl = "https://www.google.com"
+    @Singleton
+    @Provides
+    fun provideGson(): Gson = GsonBuilder().create()
 
     @Singleton
     @Provides
     fun provideRetrofit(gson: Gson): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("Base URL")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create()).build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideEgoEcoAPIService(retrofit: Retrofit): EgoEcoAPIService {
+        return retrofit.create(EgoEcoAPIService::class.java)
     }
 }
