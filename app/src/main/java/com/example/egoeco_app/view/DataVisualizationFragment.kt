@@ -2,23 +2,17 @@ package com.example.egoeco_app.view
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import com.example.egoeco_app.R
 import com.example.egoeco_app.databinding.FragmentDataVisualizationBinding
-import com.example.egoeco_app.viewmodel.DataVisualizationViewModel
 import com.example.egoeco_app.viewmodel.MainViewModel
-import com.example.egoeco_app.viewmodel.MyMenuViewModel
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.trello.rxlifecycle4.components.support.RxFragment
 import dagger.hilt.android.AndroidEntryPoint
-import splitties.views.backgroundColor
 import java.text.SimpleDateFormat
 
 @AndroidEntryPoint
