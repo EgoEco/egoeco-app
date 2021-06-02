@@ -6,16 +6,16 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 
 @Dao
-interface UserDataDao: BaseDao<OBDData> {
-    @Query("select * from obd_data")
-    fun getAll(): Observable<List<OBDData>>
+interface UserDataDao: BaseDao<User> {
+    @Query("select * from user")
+    fun getAll(): Observable<List<User>>
 
-    @Query("select * from obd_data where id=:id")
-    fun getOBDData(id: Long): Observable<OBDData>
+    @Query("select * from user where id=:id")
+    fun getUser(id: Long): Observable<User>
 
-    @Query("delete from obd_data where id=:id")
-    fun deleteOBDDataById(id: Long): Completable
+    @Query("delete from user where id=:id")
+    fun deleteUserById(id: Long): Completable
 
-    @Query("delete from obd_data")
+    @Query("delete from user")
     fun deleteAll(): Completable
 }

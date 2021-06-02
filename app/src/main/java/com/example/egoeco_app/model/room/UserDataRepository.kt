@@ -5,13 +5,13 @@ import javax.inject.Singleton
 
 @Singleton
 class UserDataRepository @Inject internal constructor(
-    val obdDataDao: OBDDataDao
+    val userDataDao: UserDataDao
 ) {
-    fun getOBDData(id: Long) = obdDataDao.getOBDData(id)
-    fun getAll() = obdDataDao.getAll()
-    fun insertOBDData(data: OBDData) = obdDataDao.insert(data)
-    fun updateOBDData(data: OBDData) = obdDataDao.update(data)
-    fun deleteOBDData(data: OBDData) = obdDataDao.delete(data)
-    fun deleteOBDDataById(id: Long) = obdDataDao.deleteOBDDataById(id)
-    fun deleteAll() = obdDataDao.deleteAll()
+    fun getOBDData(id: Long) = userDataDao.getUser(id)
+    fun getAll() = userDataDao.getAll()
+    fun insertUser(user: User) = userDataDao.insert(user)
+    fun updateUser(user: User) = userDataDao.update(user)
+    fun deleteUser(user: User) = userDataDao.delete(user)
+    fun deleteUserById(id: Long) = userDataDao.deleteUserById(id)
+    fun deleteAll() = userDataDao.deleteAll()
 }
