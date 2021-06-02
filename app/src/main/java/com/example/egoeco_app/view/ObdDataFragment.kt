@@ -2,7 +2,6 @@ package com.example.egoeco_app.view
 
 import android.Manifest
 import android.content.ActivityNotFoundException
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -14,13 +13,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.example.egoeco_app.R
 import com.example.egoeco_app.adapter.OBDListAdapter
 import com.example.egoeco_app.databinding.FragmentObdDataBinding
@@ -29,19 +23,10 @@ import com.example.egoeco_app.model.OBDData
 import com.example.egoeco_app.utils.DevTool.logD
 import com.example.egoeco_app.utils.DevTool.logE
 import com.example.egoeco_app.viewmodel.MainViewModel
-import com.example.egoeco_app.viewmodel.ObdDataViewModel
-import com.trello.rxlifecycle4.android.ActivityEvent
-import com.trello.rxlifecycle4.android.FragmentEvent
 import com.trello.rxlifecycle4.components.support.RxFragment
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.internal.subscribers.SubscriberResourceWrapper
-import io.reactivex.rxjava3.schedulers.Schedulers
 import splitties.toast.toast
 import java.util.*
-import java.util.concurrent.Flow
-import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
 
