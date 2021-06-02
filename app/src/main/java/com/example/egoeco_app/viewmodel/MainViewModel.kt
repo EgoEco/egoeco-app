@@ -3,6 +3,7 @@ package com.example.egoeco_app.viewmodel
 import android.app.Application
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -15,6 +16,7 @@ import com.example.egoeco_app.model.repo.DataRepository
 import com.example.egoeco_app.model.entity.OBDData
 import com.example.egoeco_app.model.repo.UserRepository
 import com.example.egoeco_app.utils.DevTool.logD
+import com.example.egoeco_app.utils.DevTool.logE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.CompletableObserver
@@ -29,7 +31,7 @@ class MainViewModel @Inject internal constructor(
     application: Application,
     private val dataRepository: DataRepository,
     private val userRepository: UserRepository,
-    private val retrofit: Retrofit,
+    private val apiService: EgoEcoAPIService,
 ) : AndroidViewModel(application) {
     val obdDataList = MutableLiveData<List<OBDData>>()
     val bluetoothState = MutableLiveData<Pair<BluetoothState, Int>>(Pair(BluetoothState.SCAN, -1))
@@ -46,6 +48,14 @@ class MainViewModel @Inject internal constructor(
 
     init {
         getAllOBDData()
+        apiService.getUser("sloth")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ user ->
+                logD("user: $user")
+            }, { error -> logE("error in api getUser(): $error") }, {
+                logD("complete getUser()")
+            })
     }
 
     fun startService() {
