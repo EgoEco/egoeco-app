@@ -42,6 +42,7 @@ class BluetoothService : Service() {
     val connectionState = MutableLiveData<Int>(-1)
     val scanningState = MutableLiveData<Int>(-1)
     val pairable = MutableLiveData<Boolean>(false)
+
     private val adapter by lazy { RxBluetoothAdapter(application) }
     private var mDevice: BluetoothDevice? = null
     private var mSocket: BluetoothSocket? = null
