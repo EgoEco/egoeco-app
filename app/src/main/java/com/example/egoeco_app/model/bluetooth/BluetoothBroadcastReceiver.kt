@@ -1,9 +1,8 @@
-package com.example.egoeco_app.model
+package com.example.egoeco_app.model.bluetooth
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.example.egoeco_app.utils.DevTool.logD
 
 class BluetoothBroadcastReceiver : BroadcastReceiver() {

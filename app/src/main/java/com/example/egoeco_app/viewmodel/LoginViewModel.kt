@@ -1,7 +1,7 @@
 package com.example.egoeco_app.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.egoeco_app.model.DataRepository
+import com.example.egoeco_app.model.room.DataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

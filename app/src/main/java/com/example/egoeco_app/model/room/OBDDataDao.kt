@@ -1,4 +1,4 @@
-package com.example.egoeco_app.model
+package com.example.egoeco_app.model.room
 
 import androidx.room.Dao
 import androidx.room.Query

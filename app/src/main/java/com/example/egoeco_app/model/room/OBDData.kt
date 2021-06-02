@@ -1,6 +1,5 @@
-package com.example.egoeco_app.model
+package com.example.egoeco_app.model.room
 
-import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore

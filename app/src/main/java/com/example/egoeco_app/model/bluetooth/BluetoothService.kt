@@ -1,4 +1,4 @@
-package com.example.egoeco_app.model
+package com.example.egoeco_app.model.bluetooth
 
 import android.app.*
 import android.bluetooth.BluetoothDevice
@@ -6,11 +6,12 @@ import android.bluetooth.BluetoothSocket
 import android.content.Intent
 import android.os.IBinder
 import android.os.SystemClock
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.egoeco_app.R
+import com.example.egoeco_app.model.room.DataRepository
+import com.example.egoeco_app.model.room.OBDData
 import com.example.egoeco_app.utils.DevTool.logD
 import com.example.egoeco_app.utils.DevTool.logE
 import com.example.egoeco_app.view.MainActivity
@@ -24,7 +25,6 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.io.IOException
-import java.io.Serializable
 import javax.inject.Inject
 
 @AndroidEntryPoint

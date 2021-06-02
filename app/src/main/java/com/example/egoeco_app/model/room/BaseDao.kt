@@ -1,4 +1,4 @@
-package com.example.egoeco_app.model
+package com.example.egoeco_app.model.room
 
 import androidx.room.*
 import io.reactivex.rxjava3.core.Completable

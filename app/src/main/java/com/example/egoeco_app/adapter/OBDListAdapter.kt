@@ -3,13 +3,12 @@ package com.example.egoeco_app.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.graphics.Color
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.egoeco_app.R
 import com.example.egoeco_app.databinding.ObdDataViewholderBinding
-import com.example.egoeco_app.model.OBDData
+import com.example.egoeco_app.model.room.OBDData
 import java.text.SimpleDateFormat
 
 class OBDListAdapter :

@@ -1,21 +1,17 @@
 package com.example.egoeco_app.viewmodel
 
 import android.app.Application
-import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothSocket
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.egoeco_app.model.*
+import com.example.egoeco_app.model.bluetooth.BluetoothBroadcastReceiver
+import com.example.egoeco_app.model.bluetooth.BluetoothService
+import com.example.egoeco_app.model.bluetooth.BluetoothState
+import com.example.egoeco_app.model.room.DataRepository
+import com.example.egoeco_app.model.room.OBDData
 import com.example.egoeco_app.utils.DevTool.logD
-import com.example.egoeco_app.view.MainActivity
-import com.github.zakaprov.rxbluetoothadapter.RxBluetoothAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.CompletableObserver

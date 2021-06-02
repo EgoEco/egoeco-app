@@ -1,4 +1,4 @@
-package com.example.egoeco_app.model
+package com.example.egoeco_app.model.room
 
 import javax.inject.Inject
 import javax.inject.Singleton

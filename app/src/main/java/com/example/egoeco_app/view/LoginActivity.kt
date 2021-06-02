@@ -1,12 +1,10 @@
 package com.example.egoeco_app.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.example.egoeco_app.R
 import com.example.egoeco_app.databinding.ActivityLoginBinding
-import com.example.egoeco_app.model.AppDatabase
 import com.example.egoeco_app.viewmodel.LoginViewModel
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint

@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.egoeco_app.R
 import com.example.egoeco_app.adapter.OBDListAdapter
 import com.example.egoeco_app.databinding.FragmentObdDataBinding
-import com.example.egoeco_app.model.BluetoothState
-import com.example.egoeco_app.model.OBDData
+import com.example.egoeco_app.model.bluetooth.BluetoothState
+import com.example.egoeco_app.model.room.OBDData
 import com.example.egoeco_app.utils.DevTool.logD
 import com.example.egoeco_app.utils.DevTool.logE
 import com.example.egoeco_app.viewmodel.MainViewModel

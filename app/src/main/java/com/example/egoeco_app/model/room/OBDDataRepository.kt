@@ -1,11 +1,5 @@
-package com.example.egoeco_app.model
+package com.example.egoeco_app.model.room
 
-import androidx.room.Delete
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
