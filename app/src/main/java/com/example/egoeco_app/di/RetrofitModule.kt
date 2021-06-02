@@ -15,7 +15,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
-    private const val baseUrl = "https://www.google.com"
+//    private const val BASE_URL = "https://www.google.com"
+    private const val BASE_URL = "https://api.github.com/"
     @Singleton
     @Provides
     fun provideGson(): Gson = GsonBuilder().create()
@@ -24,7 +25,7 @@ object RetrofitModule {
     @Provides
     fun provideRetrofit(gson: Gson): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create()).build()
     }

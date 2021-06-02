@@ -7,17 +7,12 @@ import java.io.Serializable
 
 @Entity(tableName = "user")
 data class User(
-    @ColumnInfo var prefix1: Int = 0,
-    @ColumnInfo var prefix2: Int = 0,
-    @ColumnInfo var engRPM_A: Int = 0,
-    @ColumnInfo var engRPM_B: Int = 0,
-    @ColumnInfo var vehicleSpd: Int = 0,
-    @ColumnInfo var ecoDriveLevel: Int = 0,
-    @ColumnInfo var reserved: Int = 0,
-    @ColumnInfo var checkSum: Int = 0,
-    @ColumnInfo var rpm: Int = 0,
-    @ColumnInfo var timeStamp: Long = 0,
-    @ColumnInfo var timeString: String = "",
+    @ColumnInfo val email: String,
+    @ColumnInfo val userId: String,
+    @ColumnInfo val level: Int,
+    @ColumnInfo val msrl: Int,
+    @ColumnInfo val point: Int,
+    @ColumnInfo val pw: String
 ) : BaseEntity() {
     @Ignore
     fun getRawByteData(data: Int) = data.toString(16)

@@ -48,7 +48,7 @@ class MainViewModel @Inject internal constructor(
 
     init {
         getAllOBDData()
-        apiService.getUser("sloth")
+        apiService.getUser("sloth246")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ user ->
