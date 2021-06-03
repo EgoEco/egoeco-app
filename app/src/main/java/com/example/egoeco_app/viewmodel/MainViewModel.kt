@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -38,9 +39,6 @@ class MainViewModel @Inject internal constructor(
     val obdDataList = MutableLiveData<List<OBDData>>()
     val bluetoothState = MutableLiveData<Pair<BluetoothState, Int>>(Pair(BluetoothState.SCAN, -1))
 
-//    private lateinit var bluetoothBroadcastReceiver: BluetoothBroadcastReceiver
-
-
     companion object {
         const val LOCATION_PERMISSION_CODE = 1
     }
@@ -71,7 +69,6 @@ class MainViewModel @Inject internal constructor(
         val serviceIntent = Intent(getApplication(), BluetoothService::class.java)
         serviceIntent.action = BluetoothService.ACTION_START
         getApplication<Application>().startForegroundService(serviceIntent)
-//        bluetoothBroadcastReceiver = BluetoothBroadcastReceiver()
         bluetoothBroadcastReceiver.setBluetoothBroadCastReceiverListener(object :
             BluetoothBroadcastReceiver.BluetoothBroadcastReceiverListener {
             override fun onBluetoothStateChanged(pair: Pair<BluetoothState, Int>) {

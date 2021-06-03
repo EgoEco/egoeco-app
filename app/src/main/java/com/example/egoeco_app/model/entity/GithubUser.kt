@@ -1,5 +1,7 @@
 package com.example.egoeco_app.model.entity
 
+import java.io.Serializable
+
 data class GithubUser(
     val avatar_url: String,
     val bio: String,
@@ -33,4 +35,4 @@ data class GithubUser(
     val type: String,
     val updated_at: String,
     val url: String
-)
+) : Serializable
