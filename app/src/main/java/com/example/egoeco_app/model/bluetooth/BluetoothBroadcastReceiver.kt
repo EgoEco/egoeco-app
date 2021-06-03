@@ -4,7 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.egoeco_app.utils.DevTool.logD
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BluetoothBroadcastReceiver : BroadcastReceiver() {
     lateinit var listener: BluetoothBroadcastReceiverListener
 

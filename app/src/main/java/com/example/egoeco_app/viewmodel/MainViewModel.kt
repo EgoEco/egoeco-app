@@ -31,6 +31,7 @@ class MainViewModel @Inject internal constructor(
     application: Application,
     private val dataRepository: DataRepository,
     private val userRepository: UserRepository,
+    private val bluetoothBroadcastReceiver: BluetoothBroadcastReceiver,
     private val apiService: EgoEcoAPIService,
 ) : AndroidViewModel(application) {
     val obdDataList = MutableLiveData<List<OBDData>>()
@@ -39,7 +40,7 @@ class MainViewModel @Inject internal constructor(
     val pairState = MutableLiveData<Int>(-1)
     val connectState = MutableLiveData<Int>(-1)
 
-    private lateinit var bluetoothBroadcastReceiver: BluetoothBroadcastReceiver
+//    private lateinit var bluetoothBroadcastReceiver: BluetoothBroadcastReceiver
 
 
     companion object {
@@ -63,7 +64,7 @@ class MainViewModel @Inject internal constructor(
         val serviceIntent = Intent(getApplication(), BluetoothService::class.java)
         serviceIntent.action = BluetoothService.ACTION_START
         getApplication<Application>().startForegroundService(serviceIntent)
-        bluetoothBroadcastReceiver = BluetoothBroadcastReceiver()
+//        bluetoothBroadcastReceiver = BluetoothBroadcastReceiver()
         bluetoothBroadcastReceiver.setBluetoothBroadCastReceiverListener(object :
             BluetoothBroadcastReceiver.BluetoothBroadcastReceiverListener {
             override fun onScanStateChanged(state: Int) {
