@@ -24,6 +24,7 @@ import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Retrofit
+import splitties.toast.toast
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,9 +37,6 @@ class MainViewModel @Inject internal constructor(
 ) : AndroidViewModel(application) {
     val obdDataList = MutableLiveData<List<OBDData>>()
     val bluetoothState = MutableLiveData<Pair<BluetoothState, Int>>(Pair(BluetoothState.SCAN, -1))
-    val scanState = MutableLiveData<Int>(-1)
-    val pairState = MutableLiveData<Int>(-1)
-    val connectState = MutableLiveData<Int>(-1)
 
 //    private lateinit var bluetoothBroadcastReceiver: BluetoothBroadcastReceiver
 
@@ -49,13 +47,22 @@ class MainViewModel @Inject internal constructor(
 
     init {
         getAllOBDData()
+        testAPIService()
+    }
+
+    private fun testAPIService() {
         apiService.getUser("sloth246")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ user ->
                 logD("user: $user")
-            }, { error -> logE("error in api getUser(): $error") }, {
+                toast("user: $user")
+            }, { error ->
+                logE("error in api getUser(): $error")
+                toast("error in api getUser(): $error")
+            }, {
                 logD("complete getUser()")
+                toast("complete getUser()")
             })
     }
 
@@ -67,18 +74,6 @@ class MainViewModel @Inject internal constructor(
 //        bluetoothBroadcastReceiver = BluetoothBroadcastReceiver()
         bluetoothBroadcastReceiver.setBluetoothBroadCastReceiverListener(object :
             BluetoothBroadcastReceiver.BluetoothBroadcastReceiverListener {
-            override fun onScanStateChanged(state: Int) {
-                scanState.value = state
-            }
-
-            override fun onPairStateChanged(state: Int) {
-                pairState.value = state
-            }
-
-            override fun onConnectStateChanged(state: Int) {
-                connectState.value = state
-            }
-
             override fun onBluetoothStateChanged(pair: Pair<BluetoothState, Int>) {
                 bluetoothState.value = pair
                 logD("bluetoothState.value: $pair")
@@ -100,9 +95,9 @@ class MainViewModel @Inject internal constructor(
         getApplication<Application>().stopService(serviceIntent)
         LocalBroadcastManager.getInstance(getApplication())
             .unregisterReceiver(bluetoothBroadcastReceiver)
-        scanState.value = -1
-        pairState.value = -1
-        connectState.value = -1
+//        scanState.value = -1
+//        pairState.value = -1
+//        connectState.value = -1
         bluetoothState.value = Pair(BluetoothState.CONNECT, -1) // Service가 너무 빨리 죽어서 여기서 value
     }
 

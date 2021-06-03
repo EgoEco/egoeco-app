@@ -14,9 +14,9 @@ class BluetoothBroadcastReceiver : BroadcastReceiver() {
     }
 
     interface BluetoothBroadcastReceiverListener {
-        fun onScanStateChanged(state: Int)
-        fun onPairStateChanged(state: Int)
-        fun onConnectStateChanged(state: Int)
+//        fun onScanStateChanged(state: Int)
+//        fun onPairStateChanged(state: Int)
+//        fun onConnectStateChanged(state: Int)
         fun onBluetoothStateChanged(pair: Pair<BluetoothState, Int>)
     }
 
@@ -27,17 +27,14 @@ class BluetoothBroadcastReceiver : BroadcastReceiver() {
             val pairState = intent.getIntExtra("pair", -2)
             val connectState = intent.getIntExtra("connect", -2)
             if (scanState != -2) {
-                listener.onScanStateChanged(scanState)
                 listener.onBluetoothStateChanged(Pair(BluetoothState.SCAN, scanState))
                 logD( "scanState: $scanState")
             }
             if (pairState != -2) {
-                listener.onPairStateChanged(pairState)
                 listener.onBluetoothStateChanged(Pair(BluetoothState.PAIR, pairState))
                 logD( "pairState: $pairState")
             }
             if (connectState != -2) {
-                listener.onConnectStateChanged(connectState)
                 listener.onBluetoothStateChanged(Pair(BluetoothState.CONNECT, connectState))
                 logD( "connectState: $connectState")
             }
