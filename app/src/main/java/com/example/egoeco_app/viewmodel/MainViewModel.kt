@@ -49,7 +49,8 @@ class MainViewModel @Inject internal constructor(
     }
 
     private fun testAPIService() {
-        apiService.getUser("sloth246")
+        apiService.getUser("s10th24b")
+//        apiService.getRepos()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ user ->
