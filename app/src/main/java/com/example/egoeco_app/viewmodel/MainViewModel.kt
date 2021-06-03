@@ -45,7 +45,7 @@ class MainViewModel @Inject internal constructor(
 
     init {
         getAllOBDData()
-        testAPIService()
+//        testAPIService()
     }
 
     private fun testAPIService() {
