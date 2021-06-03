@@ -20,6 +20,7 @@ data class OBDData(
     @ColumnInfo var timeStamp: Long = 0,
     @ColumnInfo var timeString: String = "",
 ) : BaseEntity() {
+
     @Ignore
     @ExperimentalUnsignedTypes
     fun validate(): Boolean {
@@ -29,8 +30,6 @@ data class OBDData(
         var cs = sum.toUByte()
         cs = cs and 0xFF.toUByte()
         cs = (cs.inv() + 1.toUByte()).toUByte()
-//        logD("cs: $cs")
-//        logD("checkSum: $checkSum")
         if (prefix1 != 85 || prefix2 != 1 || reserved != 0) return false
         return checkSum == cs.toInt()
     }
@@ -56,13 +55,5 @@ data class OBDData(
     fun sumOf(vararg arg: Int): Int {
         return arg.sum()
     }
-
-    @Ignore
-    fun getRawByteData() = sumOf(
-        prefix1, prefix2, engRPM_A, engRPM_B, vehicleSpd, ecoDriveLevel, reserved, checkSum
-    ).toString(16)
-
-    @Ignore
-    fun getRawByteData(data: Int) = data.toString(16)
 }
 

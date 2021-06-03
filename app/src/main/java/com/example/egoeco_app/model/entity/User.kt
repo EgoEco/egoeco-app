@@ -7,10 +7,10 @@ import java.io.Serializable
 
 @Entity(tableName = "user")
 data class User(
+    @ColumnInfo val msrl: Int,
     @ColumnInfo val email: String,
     @ColumnInfo val userId: String,
     @ColumnInfo val level: Int,
-    @ColumnInfo val msrl: Int,
     @ColumnInfo val point: Int,
     @ColumnInfo val pw: String
 ) : BaseEntity() {
