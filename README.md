@@ -1,6 +1,6 @@
 # 🚗 EgoEco-App
 
-![img](https://img.shields.io/badge/Front--orange) ![project_start_date](https://img.shields.io/badge/Project%20Start%20Date-2021--05--13-informational.svg)
+![img](https://img.shields.io/badge/Client--orange) ![project_start_date](https://img.shields.io/badge/Project%20Start%20Date-2021--05--13-informational.svg)
 
 > EgoEco Demo Link : https://www.youtube.com/watch?v=zRmi8VhzT48
 
