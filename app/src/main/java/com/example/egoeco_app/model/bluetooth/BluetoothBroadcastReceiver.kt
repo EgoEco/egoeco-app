@@ -10,9 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class BluetoothBroadcastReceiver : BroadcastReceiver() {
     lateinit var listener: BluetoothBroadcastReceiverListener
 
-    companion object {
-    }
-
     interface BluetoothBroadcastReceiverListener {
 //        fun onScanStateChanged(state: Int)
 //        fun onPairStateChanged(state: Int)
