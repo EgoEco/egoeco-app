@@ -6,7 +6,6 @@ object DevTool {
     fun logD(msg: String) {
         Log.d("KHJ", msg)
     }
-
     fun logE(msg: String) {
         Log.e("KHJ", msg)
     }
