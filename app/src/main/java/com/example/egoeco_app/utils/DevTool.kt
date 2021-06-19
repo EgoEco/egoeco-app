@@ -5,9 +5,9 @@ import android.util.Log
 object DevTool {
 
     fun logD(msg: String) {
-        Log.d("KHJ", msg)
+        Log.d("KHJ",msg)
     }
     fun logE(msg: String) {
-        Log.e("KHJ", msg)
+        Log.e("KHJ",msg)
     }
 }
