@@ -202,7 +202,6 @@ class MainViewModel @Inject internal constructor(
                 override fun onSubscribe(d: Disposable?) {
                     logD("getAllOBDData() onSubscribe $d")
                 }
-
                 override fun onNext(t: List<OBDData>?) {
                     t?.let {
                         obdDataList.value = it.toList()
