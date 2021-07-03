@@ -35,7 +35,6 @@ class OBDListAdapter :
             listener.onClicked(getItem(holder.adapterPosition))
         }
     }
-
 }
 
 class OBDDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

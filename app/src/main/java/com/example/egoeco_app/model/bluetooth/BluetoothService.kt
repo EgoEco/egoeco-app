@@ -257,7 +257,8 @@ class BluetoothService : Service() {
     }
 
     @ExperimentalUnsignedTypes
-    fun makeOBDDataFromByteArray(byteList: List<UByte>): OBDData? {
+//    fun makeOBDDataFromByteArray(byteList: List<UByte>): OBDData? { // this is the original!
+    fun makeOBDDataFromByteArray(byteList: List<Byte>): OBDData? {
         val obdData = OBDData().apply {
             prefix1 = byteList[0].toInt()
             prefix2 = byteList[1].toInt()
@@ -290,7 +291,8 @@ class BluetoothService : Service() {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ byteArray ->
-                            val byteList = byteArray.take(8).map { it.toUByte() }
+//                            val byteList = byteArray.take(8).map { it.toUByte() } // This is the original
+                            val byteList = byteArray.take(8).map { it.toByte() }
                             val data = makeOBDDataFromByteArray(byteList)
                             logD("$byteList")
                             if (data != null) insertOBDData(data)
