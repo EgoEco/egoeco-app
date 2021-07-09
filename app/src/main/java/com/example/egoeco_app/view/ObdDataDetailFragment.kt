@@ -24,9 +24,6 @@ import java.lang.IllegalStateException
 class ObdDataDetailFragment(val id: Long) : RxDialogFragment() {
     private val binding by lazy { FragmentObdDataDetailBinding.inflate(layoutInflater) }
     private val viewModel: ObdDataDetailViewModel by viewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
